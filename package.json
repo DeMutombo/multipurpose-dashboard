@@ -1,0 +1,13 @@
+{
+  "devDependencies": {
+    "tailwindcss": "^3.2.4"
+  },
+  "scripts": {
+    "build-css": "npx tailwindcss -i ./src/css/styles.css -o ./public/css/styles.css --watch",
+    "build-js": "npx esbuild src/js/alpine.js --outfile=public/js/alpine.js --bundle --watch"
+  },
+  "dependencies": {
+    "alpinejs": "^3.10.5",
+    "esbuild": "^0.16.7"
+  }
+}
