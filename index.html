@@ -180,12 +180,24 @@
     <!-- content area  -->
     <div class="w-screen bg-white antialiased">
       <!-- Top navigation area  -->
-      <div class="w-full flex justify-between bg-[#F5F7FA] h-16 px-8">
-        <div class="flex items-center">
-          <span class="text-sm">+ Create New </span>
-          <span>
-            <i data-feather="chevron-down" class="h-4 w-4 ml-2"></i>
-          </span>
+      <div
+        class="w-full flex justify-between items-center bg-[#F5F7FA] h-16 px-8"
+      >
+        <div x-data="dropdown" class="relative">
+          <div @click="toggle('create')" class="flex items-center">
+            <span class="text-sm">+ Create New </span>
+            <span>
+              <i data-feather="chevron-down" class="h-4 w-4 ml-2"></i>
+            </span>
+          </div>
+          <ul
+            x-show="open"
+            @click.outside="open =false"
+            class="py-4 bg-white absolute top-10 w-full rounded-md shadow-md"
+          >
+            <li class="p-2 hover:bg-gray-100 cursor-pointer">Student</li>
+            <li class="p-2 hover:bg-gray-100 cursor-pointer">Staff</li>
+          </ul>
         </div>
         <div class="flex items-center gap-4 text-sm text-gray-700">
           <div class="">
@@ -209,18 +221,10 @@
             <ul
               x-show="open"
               @click.outside="open =false"
-              class="py-4 px-4 bg-white absolute top-16 w-full rounded-md shadow-md"
+              class="py-4 bg-white absolute top-12 w-full rounded-md shadow-md"
             >
-              <li
-                class="mb-4 hover:bg-gray-700 hover:text-gray-100 cursor-pointer"
-              >
-                Profile
-              </li>
-              <li
-                class="mb-2 hover:bg-gray-700 hover:text-gray-100 cursor-pointer"
-              >
-                logout
-              </li>
+              <li class="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+              <li class="p-2 hover:bg-gray-100 cursor-pointer">logout</li>
             </ul>
           </div>
         </div>
