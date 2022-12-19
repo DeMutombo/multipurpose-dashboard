@@ -1,11 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* .shrinked-dropdown {
-  @apply sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28;
-} */
+@layer components {
+  .shrinked-dropdown {
+    @apply sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 border-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28;
+  }
 
-/* .active-navigation {
-  @apply text-gray-200 bg-gray-80;
-} */
+  .active-navigation {
+    @apply bg-gray-800 text-gray-300;
+  }
+
+  .input {
+    @apply p-2 rounded-md;
+  }
+
+  .error {
+    @apply text-red-500 text-xs;
+  }
+}
+
+@layer base {
+  html {
+    font-family: Nunito, sans-serif;
+  }
+}

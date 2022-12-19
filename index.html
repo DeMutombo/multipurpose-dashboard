@@ -60,7 +60,7 @@
         <ul class="mt-6">
           <!-- Home  -->
           <li
-            class="relative flex items-center text-gray-400 space-x-2 rounded-md p-2 cursor-pointer bg-gray-800 mb-5 text-sm"
+            class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm active-navigation"
             :class="{'justiy-start' : $store.sidebar.full, 'sm:justify-center': !$store.sidebar.full}"
           >
             <i data-feather="home" class="h-4 w-4"></i>
@@ -82,12 +82,14 @@
             <ul
               x-show="open"
               @click.outside="open =false"
-              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'shrinked-dropdown'"
               class="text-gray-400 space-y-3"
             >
-              <li class="hover:text-gray-200 cursor-pointer">Add Student</li>
               <li class="hover:text-gray-200 cursor-pointer">
-                <a href="./src/pages/all-students.html">All student</a>
+                <a href="src/pages/add-student-form.html">Add Student</a>
+              </li>
+              <li class="hover:text-gray-200 cursor-pointer">
+                <a href="src/pages/all-students.html">All student</a>
               </li>
               <li class="hover:text-gray-200 cursor-pointer">
                 <a href="/src/pages/archive.html">Archived</a>
