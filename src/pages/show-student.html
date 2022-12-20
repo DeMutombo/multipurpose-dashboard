@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Tailwind Alpine Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="/public/css/styles.css" rel="stylesheet" />
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.10.5/dist/cdn.min.js"
+    ></script>
+  </head>
+  <style>
+    /* alpine hide elements while page loads */
+    [x-cloak] {
+      display: none;
+    }
+  </style>
+
+  <body x-data class="h-screen antialiased flex">
+    <!-- side Navigation  -->
+    <nav
+      class="h-screen bg-gray-900 transition-all duration-300 space-y-2 fixed sm:relative"
+      x-bind:class="{'w-64':$store.sidebar.full, 'w-64 sm:w-20':!$store.sidebar.full, 'top-0 left-0':$store.sidebar.navOpen, 'top-0 -lef-64 sm:left-0':!$store.sidebar.full}"
+    >
+      <div class="w-full flex text-center h-16 items-center">
+        <a
+          href=""
+          class="text-white font-black text-center w-full"
+          x-bind:class="$store.sidebar.full ? 'text-2xl px-5' : 'px-4 xm:px-2'  "
+        >
+          LOGO
+        </a>
+      </div>
+      <!-- navigation list -->
+      <div class="px-4">
+        <!-- toggle sidebar  -->
+        <button
+          @click="$store.sidebar.full = !$store.sidebar.full"
+          class="hidden sm:block absolute p-1 -right-3 top-5 bg-gray-900 rounded-full shadow-md"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-chevron-down h-5 w-5 text-white transform"
+            x-bind:class="$store.sidebar.full ? 'rotate-90' : '-rotate-90' "
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+
+        <ul class="mt-6">
+          <!-- Home  -->
+          <li
+            class="relative flex items-center text-gray-400 space-x-2 rounded-md p-2 cursor-pointer bg-gray-800 mb-5 text-sm"
+            :class="{'justiy-start' : $store.sidebar.full, 'sm:justify-center': !$store.sidebar.full}"
+          >
+            <a href="/index.html">
+              <i data-feather="home" class="h-4 w-4"></i>
+              <a href="/index.html" :class="$store.sidebar.full ? '' : 'hidden'"
+                >Dashboard</a
+              >
+            </a>
+          </li>
+          <!-- Students/  -->
+          <li x-data="dropdown" class="relative mb-4 text-sm">
+            <div
+              @click="toggle('students')"
+              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+            >
+              <div class="relative flex space-x-2 items-center">
+                <i data-feather="users" class="h-4 w-4"></i>
+                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Students</h1>
+              </div>
+              <i data-feather="chevron-down"></i>
+            </div>
+            <!-- dropdown content  -->
+            <ul
+              x-show="open"
+              @click.outside="open =false"
+              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+              class="text-gray-400 space-y-3"
+            >
+              <li class="hover:text-gray-200 cursor-pointer">
+                <a href="add-student-form.html">Add Student</a>
+              </li>
+              <li class="hover:text-gray-200 cursor-pointer">
+                <a href="all-students.html">All student</a>
+              </li>
+              <li class="hover:text-gray-200 cursor-pointer">
+                <a href="archive.html">Archived</a>
+              </li>
+              <li class="hover:text-gray-200 cursor-pointer">
+                <a href="suspended.html">Suspended</a>
+              </li>
+            </ul>
+          </li>
+
+          <!-- Registration  -->
+          <li x-data="dropdown" class="relative mb-4 text-sm">
+            <div
+              @click="toggle('registration')"
+              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+            >
+              <div class="relative flex space-x-2 items-center">
+                <i data-feather="edit" class="h-4 w-4"></i>
+                <h1 :class="$store.sidebar.full ? '' : 'hidden'">
+                  Registration
+                </h1>
+              </div>
+              <i data-feather="chevron-down"></i>
+            </div>
+
+            <!-- dropdown content  -->
+            <div
+              x-show="open"
+              @click.outside="open =false"
+              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+              class="text-gray-400 space-y-3"
+            >
+              <h1 class="hover:text-gray-200 cursor-pointer">Item 1</h1>
+              <h1 class="hover:text-gray-200 cursor-pointer">Item 2</h1>
+            </div>
+          </li>
+
+          <!-- Staff  -->
+          <li
+            class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer mb-4"
+          >
+            <i data-feather="users" class="h-4 w-4"></i>
+            <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
+              Staff
+            </h1>
+          </li>
+
+          <!-- Management  -->
+          <li x-data="dropdown" class="relative mb-4 text-sm">
+            <div
+              @click="toggle('students')"
+              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+            >
+              <div class="relative flex space-x-2 items-center">
+                <i data-feather="clipboard" class="h-4 w-4"></i>
+                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Management</h1>
+              </div>
+              <i data-feather="chevron-down"></i>
+            </div>
+            <!-- dropdown content  -->
+            <ul
+              x-show="open"
+              @click.outside="open =false"
+              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+              class="text-gray-400 space-y-3"
+            >
+              <li class="hover:text-gray-200 cursor-pointer">Item 1</li>
+              <li class="hover:text-gray-200 cursor-pointer">Item 2</li>
+            </ul>
+          </li>
+
+          <!-- My Profile  -->
+          <li
+            class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
+          >
+            <i data-feather="user" class="h-4 w-4"></i>
+            <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
+              My Profile
+            </h1>
+          </li>
+          <hr class="my-4" />
+
+          <!-- Events  -->
+          <li
+            class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
+          >
+            <i data-feather="star" class="h-4 w-4"></i>
+            <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
+              Events
+            </h1>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- content area  -->
+    <div class="w-screen bg-theme-gray antialiased">
+      <!-- Top navigation area  -->
+      <div class="w-full flex justify-between items-center bg-white h-16 px-8">
+        <div x-data="dropdown" class="relative">
+          <div @click="toggle('create')" class="flex items-center">
+            <span class="text-sm">+ Create New </span>
+            <span>
+              <i data-feather="chevron-down" class="h-4 w-4 ml-2"></i>
+            </span>
+          </div>
+          <ul
+            x-show="open"
+            @click.outside="open =false"
+            class="py-4 bg-white absolute top-10 w-full rounded-md shadow-md"
+          >
+            <li class="p-2 hover:bg-gray-100 cursor-pointer">Student</li>
+            <li class="p-2 hover:bg-gray-100 cursor-pointer">Staff</li>
+            <li class="p-2 hover:bg-gray-100 cursor-pointer">Event</li>
+          </ul>
+        </div>
+        <div class="flex items-center gap-4 text-sm text-gray-700">
+          <div class="">
+            <i data-feather="bell" class="h-5 w-5"></i>
+          </div>
+          <div x-data="dropdown" class="relative">
+            <div @click="toggle('user')" class="flex items-center gap-4">
+              <img
+                src="/public/images/avatars/avatar.jpg"
+                alt=""
+                class="w-8 h-8 rounded-full"
+              />
+              <div class="flex items-center">
+                <span class="text-sm">Nataline</span>
+                <i
+                  data-feather="chevron-down"
+                  class="h-4 w-4 ml-2 cursor-pointer"
+                ></i>
+              </div>
+            </div>
+            <ul
+              x-show="open"
+              @click.outside="open =false"
+              class="py-4 bg-white absolute top-12 w-full rounded-md shadow-md"
+            >
+              <li class="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+              <li class="p-2 hover:bg-gray-100 cursor-pointer">logout</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="w-full px-10 mx-auto">
+        <!-- breadcrumbs section -->
+        <div class="top-navigation flex justify-end items-center py-5">
+          <div class="text-gray-500 text-sm flex items-center">
+            <span class="pr-2">students page </span>
+            <i data-feather="chevron-right" class="block w-3 h-3"></i>
+            <span class="pl-2"> Add student form </span>
+          </div>
+        </div>
+        <div class="content">
+          <div
+            x-data="{
+              showModal:@entangle('showPaymentModal'),
+              credit:false,
+              payment:false,
+              toggleModal(modal){
+                  this.showModal=true
+                  if(modal === 'credit'){
+                      this.payment = false
+                      this.credit=true
+                  }else if(modal === 'payment'){
+                      this.credit = false
+                      this.payment = true
+                  }
+              },
+          
+              }"
+            @keydown.escape="showModal = false"
+          >
+            <div>
+              <!-- <div class="alert alert-success">alert message</div> -->
+            </div>
+            <!-- BEGIN: Content -->
+            <div
+              x-data="{
+                      openTab:1
+                  }"
+              class="content"
+            >
+              <div
+                x-show="showWarning"
+                x-init="setTimeout(() => showWarning ? showWarning = false : console.log('I can initialize'), 3000)"
+                class="rounded-md flex items-center px-5 py-4 mb-2 mt-5 bg-green-300 text-black"
+                x-cloak
+              >
+                <i data-feather="alert-octagon" class="w-6 h-6 mr-2"></i> The
+                email was sent successfully to {{ $student->email }}.
+                <x-feathericon-x
+                  class="w-4 h-4 ml-auto cursor-pointer"
+                  @click="showWarning = false"
+                />
+              </div>
+              <div class="intro-y flex justify-between items-center mt-8">
+                <h2 class="w-full sm:text-lg font-medium mr-auto">
+                  Student page
+                </h2>
+                <div class="w-auto flex ml-auto mr-0">
+                  <div class="text-center">
+                    <a
+                      href="{{ route('student.registration', $student->id) }}"
+                      class="flex button mr-1 bg-green-300"
+                      >Register
+                      <i data-feather="clipboard" class="w-4 h-5 ml-2"></i
+                    ></a>
+                  </div>
+                </div>
+              </div>
+              <!-- BEGIN: Profile Info -->
+              <div class="px-5 pt-5 mt-5 shadow-md bg-white">
+                <div
+                  class="flex flex-col lg:flex-row border-b border-gray-200 dark:border-dark-5 pb-5"
+                >
+                  <div
+                    class="flex flex-1 px-5 items-center justify-center lg:justify-start"
+                  >
+                    <div
+                      class="w-20 h-20 sm:w-24 sm:h-24 flex-none lg:w-32 lg:h-32 image-fit relative"
+                    >
+                      <img
+                        alt="image place holders"
+                        class="rounded-full"
+                        src="/public/images/avatars/profile-10.jpg"
+                        alt="Student Photo"
+                      />
+                    </div>
+                    <div class="ml-5">
+                      <div
+                        class="w-24 sm:w-40 truncate sm:whitespace-normal font-medium text-lg"
+                      >
+                        Smith
+                      </div>
+                      <div class="text-gray-600">TB0000012</div>
+                    </div>
+                  </div>
+                  <div
+                    class="flex mt-6 lg:mt-0 items-center lg:items-start flex-1 flex-col justify-center text-gray-600 dark:text-gray-300 px-5 border-l border-r border-gray-200 border-t lg:border-t-0 pt-5 lg:pt-0"
+                  >
+                    <div
+                      class="truncate sm:whitespace-normal flex items-center"
+                    >
+                      <i data-feather="mail" class="w-4 h-4 mr-3"></i
+                      >smith@mail.com
+                    </div>
+                    <div
+                      class="truncate sm:whitespace-normal flex items-center mt-3"
+                    >
+                      <i data-feather="phone" class="w-4 h-4 mr-3"></i>071 568
+                      8246
+                    </div>
+                    <div
+                      class="truncate sm:whitespace-normal flex items-center mt-3"
+                    >
+                      <i data-feather="user" class="w-4 h-4 mr-3"></i> congolese
+                    </div>
+                    <div
+                      class="truncate sm:whitespace-normal flex items-center mt-3"
+                    >
+                      By : Josh
+                    </div>
+                  </div>
+                  <!-- <div
+                    class="mt-6 lg:mt-0 flex-1 flex gap-6 justify-center px-5 border-t lg:border-0 border-gray-200 dark:border-dark-5 pt-5 lg:pt-0"
+                  >
+                    <div class="text-center rounded-md py-3">
+                      <div
+                        class="font-semibold text-theme-1 dark:text-theme-10 text-lg"
+                      >
+                        R {{ $student->account->amount_paid}}
+                      </div>
+                      <div class="text-gray-600">Paid</div>
+                      @can('accounts.add.payment')
+                      <button
+                        @click="toggleModal('payment')"
+                        type="button"
+                        class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 mt-2 bg-white text-sm font-medium text-gray-700 focus:outline-none hover:bg-green-300"
+                      >
+                        Payments
+                      </button>
+                      @endcan
+                    </div>
+                    <div class="text-center rounded-md py-3">
+                      <div
+                        class="font-semibold text-theme-1 dark:text-theme-10 text-lg"
+                      >
+                        R {{ $student->account->amount_due -
+                        $student->account->amount_paid}}
+                      </div>
+                      <div class="text-gray-600">Balance</div>
+                      @can('accounts.add.credit')
+                      <button
+                        @click="toggleModal('credit')"
+                        type="button"
+                        class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 mt-2 bg-white text-sm font-medium text-gray-700 focus:outline-none hover:bg-green-300"
+                      >
+                        Credits
+                      </button>
+                      @endcan
+                    </div>
+                  </div> -->
+                  <div class="text-lg text-gray-500 px-8 m-auto">
+                    Register student to create an account
+                  </div>
+                </div>
+                <div
+                  class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start bg-white"
+                >
+                  <a
+                    @click="openTab = 1"
+                    href="#"
+                    :class="openTab === 1 ? 'activeTab' : ''"
+                    class="py-4 sm:mr-8 flex items-center"
+                  >
+                    <i data-feather="user" class="w-4 h-5 mr-2"></i> Personal
+                    Details
+                  </a>
+                  <a
+                    @click="openTab = 2"
+                    href="#"
+                    :class="openTab === 2 ? 'active' : ''"
+                    class="py-4 sm:mr-8 flex items-center"
+                  >
+                    <i data-feather="dollar-sign" class="w-4 h-5 mr-2"></i>
+                    Account
+                  </a>
+                  <a
+                    @click="openTab = 3"
+                    href="#"
+                    :class="openTab === 3 ? 'active' : ''"
+                    class="py-4 sm:mr-8 flex items-center"
+                  >
+                    <i data-feather="file-text" class="w-4 h-5 mr-2"></i
+                    >Courses</a
+                  >
+                  <a
+                    @click="openTab = 4"
+                    href="#"
+                    :class="openTab === 4 ? 'active' : ''"
+                    class="py-4 sm:mr-8 flex items-center"
+                  >
+                    <i data-feather="file-text" class="w-4 h-5 mr-2"></i>
+                    Results</a
+                  >
+                </div>
+              </div>
+              <!-- BEGIN: Personal Profile -->
+              <div x-show="openTab === 1" class="mt-5 bg-white shadow-md">
+                <div class="active">
+                  <div
+                    class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200"
+                  >
+                    <h2 class="font-medium text-base mr-auto">
+                      Personal Details
+                    </h2>
+                    <a
+                      href="{{ route('student.edit', ['student' =>  $student->id]) }}"
+                      class="button border text-black dark:border-dark-5 dark:text-gray-300 hidden sm:flex items-center mr-2 hover:bg-green-400"
+                    >
+                      <i data-feather="edit" class="w-4 h-4 mr-3"></i> Edit
+                    </a>
+                    <a
+                      wire:click="archive_student({{ $student->id }})"
+                      class="button border text-black dark:border-dark-5 dark:text-gray-300 hidden sm:flex items-center hover:bg-red-400"
+                    >
+                      <i data-feather="archive" class="w-4 h-4 mr-2"> </i
+                      >Archive
+                    </a>
+                  </div>
+                  <div class="flex flex-col md:flex-row gap-20 p-5">
+                    <div class="text-ms">
+                      <table class="table table--sm">
+                        <tr>
+                          <td class="font-bold">Surname</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->surname }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">First Name</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->first_name }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Nick Name 1</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->nickname_1 }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Nick Name 2</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->nickname_2 }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Nationality</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ __('countries.' .$student->nationality) }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">ID Number</td>
+                          <td class="sm:px-3">:</td>
+                          @if ($student->id_number)
+                          <td>{{ $student->id_number }}</td>
+                          @else
+                          <td>{{ $student->dhe_number }}</td>
+                          @endif
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Gender</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->gender }}</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <div
+                      class="text-ms border-l border-gray-200 dark:border-dark-5 px-5"
+                    >
+                      <table class="table table--sm">
+                        <tr>
+                          <td class="font-bold">Birth Date</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->birth_date->format('Y-m-d') }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Age</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $age }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Cell</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->cell }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Email</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->email }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Guardian Name</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->guardian_name }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Guardian Cell</td>
+                          <td class="sm:px-3">:</td>
+                          <td>{{ $student->guardian_cell }}</td>
+                        </tr>
+                      </table>
+                    </div>
+                    <!-- @if ($student->as_south_african_id != 1) -->
+                    <!-- <div
+                      class="text-ms border-l border-gray-200 dark:border-dark-5 px-5 md:px-10"
+                    >
+                      <table class="table table--sm">
+                        <tr>
+                          <td class="font-bold">Passport Number</td>
+                          <td class="px-3">:</td>
+                          <td>{{ $student->passport_number }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Passport issue date</td>
+                          <td class="px-3">:</td>
+                          <td>{{ $student->passport_issue }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Passport Expiry date</td>
+                          <td class="px-3">:</td>
+                          <td>{{ $student->passport_expiry }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Visa Number</td>
+                          <td class="px-3">:</td>
+                          <td>{{ $student->visa_number }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Visa Issue</td>
+                          <td class="px-3">:</td>
+                          <td>{{ $student->visa_issue }}</td>
+                        </tr>
+                        <tr>
+                          <td class="font-bold">Visa Expire</td>
+                          <td class="px-3">:</td>
+                          <td>{{ $student->visa_expiry }}</td>
+                        </tr>
+                      </table>
+                    </div> -->
+                    <!-- @endif -->
+                  </div>
+                  <!-- END: Latest Uploads -->
+                </div>
+              </div>
+              <!-- BEGIN: Accounts Page -->
+              <div
+                x-show="openTab === 2"
+                class="tab-content mt-5"
+                style="display: none"
+              >
+                <div class="tab-content__pane active">
+                  <div class="intro-y box col-span-12 lg:col-span-6">
+                    <div
+                      class="flex items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5"
+                    >
+                      <h2 class="font-medium text-base mr-auto">
+                        User account page
+                      </h2>
+                      <!-- Invoice dropdown -->
+                      <div
+                        x-data="{
+                                          open:false,
+                                          toggle(){
+                                              this.open = this.open ? this.close() : true
+                                          },
+                                          close(){
+                                              this.open = false
+                                          }
+                                      }"
+                        @keydown.escape.prevent.stop="close()"
+                        class="relative inline-block text-left mr-2"
+                      >
+                        <div>
+                          <button
+                            @click="toggle()"
+                            type="button"
+                            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 focus:outline-none hover:bg-green-300"
+                            @if(!$student-
+                          >
+                            account) disabled @endif> Invoice
+                            <!-- Heroicon name: solid/chevron-down -->
+                            <svg
+                              class="-mr-1 ml-2 h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div
+                          x-show="open"
+                          @click.outside="close()"
+                          style="display: none"
+                          class="origin-top-right absolute left-0 w-auto mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                        >
+                          <div class="py-1" role="none">
+                            <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                            <button
+                              wire:click="download_invoice({{ $student->id }})"
+                              class="text-gray-700 px-4 py-2 text-sm flex gap-2 hover:bg-green-300 hover:text-black"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="menu-item-0"
+                            >
+                              <x-feathericon-download class="w-4 h-4" />
+                              <span @click.inside="close()"> Download </span>
+                            </button>
+                            <button
+                              wire:click="send_invoice({{ $student->id }})"
+                              class="text-gray-700 px-4 py-2 text-sm flex gap-2 hover:bg-green-300 hover:text-black"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="menu-item-1"
+                            >
+                              <x-feathericon-send class="w-4 h-4" />
+                              <span @click.inside="close()">
+                                Send via email
+                              </span>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    @if ($student->account)
+                    <div class="flex flex-col md:flex-row gap-5 p-5">
+                      <div
+                        class="flex items-center justify-between account border py-2 px-2 md:px-4 bg-gray-200 rounded-md"
+                      >
+                        <div class="font-bold md:text-xl uppercase">
+                          ACC Number: <span class="md:hidden">:</span>
+                        </div>
+                        <div
+                          class="font-bold md:text-center md:text-xl md:ml-3 text-green-700"
+                        >
+                          {{ $account->account_number }}
+                        </div>
+                      </div>
+                      <div
+                        class="flex items-center justify-between account border py-2 px-2 md:px-4 bg-gray-200 rounded-md"
+                      >
+                        <div class="font-bold md:text-xl uppercase">
+                          Course Fee <span class="md:hidden">:</span>
+                        </div>
+                        <div
+                          class="font-bold md:text-center md:text-xl md:ml-3 text-green-700"
+                        >
+                          R {{ $account->amount_due }}
+                        </div>
+                      </div>
+                      <div
+                        class="flex items-center justify-between account border py-2 px-2 md:px-4 bg-gray-200 rounded-md"
+                      >
+                        <div class="font-bold md:text-xl uppercase">
+                          Credited Given <span class="md:hidden">:</span>
+                        </div>
+                        <div
+                          class="font-bold md:text-center md:text-xl md:ml-3 text-green-700"
+                        >
+                          R {{ $account->total_credit }}
+                        </div>
+                      </div>
+                    </div>
+
+                    @if (count($payments) != 0)
+                    <div class="p-5">
+                      <div class="">
+                        <h2 class="font-medium text-base mr-auto">
+                          Transaction History
+                        </h2>
+                        <div>
+                          <button
+                            wire:click="downloadPaymentHistory({{ $student->id }})"
+                            type="button"
+                            class="justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 mt-3 bg-white text-sm font-medium text-gray-700 focus:outline-none flex gap-2 hover:bg-green-300 hover:text-black"
+                          >
+                            <x-feathericon-download class="w-4 h-4" />
+                            <span> Download PDF </span>
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        class="mt-5 w-full overflow-x-auto sm:overflow-hidden"
+                      >
+                        <table
+                          class="table-auto border-collapse border border-slate-400"
+                        >
+                          <thead>
+                            <tr class="bg-gray-300 text-black">
+                              <td class="border border-slate-300 px-1 sm:px-5">
+                                Paid Date
+                              </td>
+                              <td class="border border-slate-300 px-1 sm:px-5">
+                                Details
+                              </td>
+                              <td class="border border-slate-300 px-1 sm:px-5">
+                                Refereces
+                              </td>
+                              <td class="border border-slate-300 px-1 sm:px-5">
+                                Capturer
+                              </td>
+                              <td class="border border-slate-300 px-1 sm:px-5">
+                                Amount
+                              </td>
+                              <td class="border border-slate-300 px-1 sm:px-5">
+                                Method
+                              </td>
+                              <td class="border border-slate-300 px-1 sm:px-5">
+                                Type
+                              </td>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            @foreach ($payments as $payment)
+                            <tr>
+                              <td
+                                class="border border-slate-300 px-2 sm:pl-5 sm:pr-10"
+                              >
+                                {{ \Carbon\Carbon::parse(
+                                $payment->paid_on)->toDateString() }}
+                              </td>
+                              <td
+                                class="border border-slate-300 px-2 sm:pl-5 sm:pr-10"
+                              >
+                                {{ $payment->comment }}
+                              </td>
+                              <td
+                                class="border border-slate-300 px-2 sm:pl-5 sm:pr-10"
+                              >
+                                {{ $payment->payment_reference }}
+                              </td>
+                              <td
+                                class="border border-slate-300 px-2 sm:pl-5 sm:pr-10"
+                              >
+                                {{ $payment->capturer->name }}
+                                <span class="block text-xs text-gray-400">
+                                  On : {{
+                                  \Carbon\Carbon::parse($payment->created_at)->toDateString()}}</span
+                                >
+                              </td>
+                              <td
+                                class="border border-slate-300 px-2 sm:pl-5 sm:pr-10"
+                              >
+                                R {{ $payment->amount }}
+                              </td>
+                              <td
+                                class="border border-slate-300 px-2 sm:pl-5 sm:pr-10"
+                              >
+                                {{ $payment->payment_method }}
+                              </td>
+                              <td
+                                class="border border-slate-300 px-2 sm:pl-5 sm:pr-10"
+                              >
+                                {{ $payment->type }}
+                              </td>
+                            </tr>
+                            @endforeach
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    @endif @endif
+                  </div>
+                </div>
+              </div>
+              <!-- BEGIN: Course -->
+              <div
+                x-show="openTab === 3"
+                class="tab-content mt-5"
+                style="display: none"
+              >
+                <div class="tab-content__pane active">
+                  <div class="intro-y box col-span-12 lg:col-span-6">
+                    <div
+                      class="flex flex-col md:flex-row md:items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5"
+                    >
+                      <h2 class="font-medium text-base mr-auto mb-2 md:mb-0">
+                        Course page
+                      </h2>
+                      <!-- Proof of registration dropdown -->
+                      <div
+                        x-data="{
+                                              open:false,
+                                              toggle(){
+                                                  this.open = this.open ? this.close() : true
+                                              },
+                                              close(){
+                                                  this.open = false
+                                              }
+                                          }"
+                        @keydown.escape.prevent.stop="close()"
+                        class="relative inline-block text-left"
+                      >
+                        <div>
+                          <button
+                            @click="toggle()"
+                            type="button"
+                            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 focus:outline-none hover:bg-green-300 mb-2 md:mb-2"
+                            id="menu-button"
+                            aria-expanded="true"
+                            aria-haspopup="true"
+                            @if(!$student-
+                          >
+                            account) disabled @endif>
+                            <x-feathericon-download class="w-4 h-4" />
+                            <span class="pl-2">Download Proof</span>
+                            <!-- Heroicon name: solid/chevron-down -->
+                            <svg
+                              class="-mr-1 ml-2 h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div
+                          x-show="open"
+                          @click.outside="close()"
+                          style="display: none"
+                          class="origin-top-right absolute right-0 left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                        >
+                          <div class="py-1" role="none">
+                            @foreach ($studentRegistrations as $reg)
+                            <button
+                              wire:click="download_single_registration({{ $reg->id }})"
+                              class="text-gray-700 px-4 py-2 text-sm flex gap-2 hover:bg-green-300 hover:text-black"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="menu-item-0"
+                            >
+                              <span @click.inside="close()">
+                                @if ($reg->year && $reg->trimester)
+                                {{$reg->year}} Trim {{$reg->trimester}}
+                                {{$reg->faculty}}: {{$reg->course_type}} @else
+                                {{$reg->year}} {{$reg->course_type}} @endif
+                              </span>
+                            </button>
+                            @endforeach
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        x-data="{
+                                              open:false,
+                                              toggle(){
+                                                  this.open = this.open ? this.close() : true
+                                              },
+                                              close(){
+                                                  this.open = false
+                                              }
+                                          }"
+                        @keydown.escape.prevent.stop="close()"
+                        class="relative inline-block text-left md:ml-3"
+                      >
+                        <div>
+                          <button
+                            @click="toggle()"
+                            type="button"
+                            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 focus:outline-none hover:bg-green-300"
+                            id="menu-button"
+                            aria-expanded="true"
+                            aria-haspopup="true"
+                            @if(!$student-
+                          >
+                            account) disabled @endif>
+                            <x-feathericon-send class="w-4 h-4" />
+                            <span class="pl-1">Email Proof</span>
+
+                            <!-- Heroicon name: solid/chevron-down -->
+                            <svg
+                              class="-mr-1 ml-2 h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div
+                          x-show="open"
+                          @click.outside="close()"
+                          style="display: none"
+                          class="origin-top-right absolute right-0 left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                        >
+                          <div class="py-1" role="none">
+                            @foreach ($studentRegistrations as $reg)
+                            <button
+                              wire:click="email_single_registration({{ $reg->id }})"
+                              class="text-gray-700 px-4 py-2 text-sm flex gap-2 hover:bg-green-300 hover:text-black"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="menu-item-0"
+                            >
+                              <span @click.inside="close()">
+                                @if ($reg->year && $reg->trimester)
+                                {{$reg->year}} Trim {{$reg->trimester}}
+                                {{$reg->faculty}}: {{$reg->course_type}} @else
+                                {{$reg->year}} {{$reg->course_type}} @endif
+                              </span>
+                            </button>
+                            @endforeach
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="overflow-x-auto overflow-y-auto px-5">
+                      <table class="table table--sm mt-5">
+                        <thead>
+                          <tr class="bg-gray-200 text-gray-700">
+                            <th class="whitespace-no-wrap">#</th>
+                            <th class="whitespace-no-wrap">Course name</th>
+                            <th class="whitespace-no-wrap">Subject</th>
+                            <th class="whitespace-no-wrap">Attendance</th>
+                            <th class="whitespace-no-wrap">Price</th>
+                            <th class="whitespace-no-wrap hidden md:block">
+                              N-Level
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($subjects as $subjectGroup ) @foreach
+                          ($subjectGroup["subjects"] as $subject)
+                          <tr>
+                            <td class="border-b dark:border-dark-5 w-8">
+                              {{ $subject["id"] }}
+                            </td>
+                            <td class="border-b dark:border-dark-5 uppercase">
+                              {{$subject["course_name"]}}
+                            </td>
+                            <td class="border-b dark:border-dark-5 lowercase">
+                              {{$subject["subject_name"]}}
+                            </td>
+                            <td class="border-b dark:border-dark-5 normal-case">
+                              {{$subject["attendance"]}}
+                            </td>
+                            <td class="border-b dark:border-dark-5">
+                              R {{$subject["price"]}}
+                            </td>
+                            <td
+                              class="border-b dark:border-dark-5 normal-case hidden md:block"
+                            >
+                              {{$subject["n_level"]}}
+                            </td>
+                          </tr>
+                          @endforeach @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- BEGIN: Results -->
+              <div
+                x-show="openTab === 4"
+                class="tab-content mt-5"
+                style="display: none"
+              >
+                <div class="tab-content__pane active">
+                  <div class="intro-y box col-span-12 lg:col-span-6">
+                    <div
+                      class="flex flex-col md:flex-row md:items-center px-5 py-5 sm:py-3 border-b border-gray-200 dark:border-dark-5"
+                    >
+                      <h2 class="font-medium text-base mr-auto mb-2 md:mb-0">
+                        Results page
+                      </h2>
+                      <!-- Proof of registration dropdown -->
+                      {{--
+                      <div
+                        x-data="{
+                                              open:false,
+                                              toggle(){
+                                                  this.open = this.open ? this.close() : true
+                                              },
+                                              close(){
+                                                  this.open = false
+                                              }
+                                          }"
+                        @keydown.escape.prevent.stop="close()"
+                        class="relative inline-block text-left"
+                      >
+                        <div>
+                          <button
+                            @click="toggle()"
+                            type="button"
+                            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 focus:outline-none hover:bg-green-300 mb-2 md:mb-2"
+                            id="menu-button"
+                            aria-expanded="true"
+                            aria-haspopup="true"
+                            @if(!$student-
+                          >
+                            account) disabled @endif>
+                            <x-feathericon-download class="w-4 h-4" />
+                            <span class="pl-2">Download Proof</span>
+                            <!-- Heroicon name: solid/chevron-down -->
+                            <svg
+                              class="-mr-1 ml-2 h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div
+                          x-show="open"
+                          @click.outside="close()"
+                          style="display: none"
+                          class="origin-top-right absolute right-0 left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                        >
+                          <div class="py-1" role="none">
+                            @foreach ($studentRegistrations as $reg)
+                            <button
+                              wire:click="download_single_registration({{ $reg->id }})"
+                              class="text-gray-700 px-4 py-2 text-sm flex gap-2 hover:bg-green-300 hover:text-black"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="menu-item-0"
+                            >
+                              <span @click.inside="close()">
+                                @if ($reg->year && $reg->trimester)
+                                {{$reg->year}} Trim {{$reg->trimester}}
+                                {{$reg->faculty}}: {{$reg->course_type}} @else
+                                {{$reg->year}} {{$reg->course_type}} @endif
+                              </span>
+                            </button>
+                            @endforeach
+                          </div>
+                        </div>
+                      </div>
+                      --}} {{--
+                      <div
+                        x-data="{
+                                              open:false,
+                                              toggle(){
+                                                  this.open = this.open ? this.close() : true
+                                              },
+                                              close(){
+                                                  this.open = false
+                                              }
+                                          }"
+                        @keydown.escape.prevent.stop="close()"
+                        class="relative inline-block text-left md:ml-3"
+                      >
+                        <div>
+                          <button
+                            @click="toggle()"
+                            type="button"
+                            class="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 focus:outline-none hover:bg-green-300"
+                            id="menu-button"
+                            aria-expanded="true"
+                            aria-haspopup="true"
+                            @if(!$student-
+                          >
+                            account) disabled @endif>
+                            <x-feathericon-send class="w-4 h-4" />
+                            <span class="pl-1">Email Proof</span>
+
+                            <!-- Heroicon name: solid/chevron-down -->
+                            <svg
+                              class="-mr-1 ml-2 h-5 w-5"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 20 20"
+                              fill="currentColor"
+                              aria-hidden="true"
+                            >
+                              <path
+                                fill-rule="evenodd"
+                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                        <div
+                          x-show="open"
+                          @click.outside="close()"
+                          style="display: none"
+                          class="origin-top-right absolute right-0 left-0 mt-2 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                        >
+                          <div class="py-1" role="none">
+                            @foreach ($studentRegistrations as $reg)
+                            <button
+                              wire:click="email_single_registration({{ $reg->id }})"
+                              class="text-gray-700 px-4 py-2 text-sm flex gap-2 hover:bg-green-300 hover:text-black"
+                              role="menuitem"
+                              tabindex="-1"
+                              id="menu-item-0"
+                            >
+                              <span @click.inside="close()">
+                                @if ($reg->year && $reg->trimester)
+                                {{$reg->year}} Trim {{$reg->trimester}}
+                                {{$reg->faculty}}: {{$reg->course_type}} @else
+                                {{$reg->year}} {{$reg->course_type}} @endif
+                              </span>
+                            </button>
+                            @endforeach
+                          </div>
+                        </div>
+                      </div>
+                      --}}
+                    </div>
+                    <div class="overflow-x-auto overflow-y-auto px-5">
+                      <table class="table table--sm mt-5">
+                        <thead>
+                          <tr class="bg-gray-200 text-gray-700">
+                            <th class="whitespace-no-wrap">#</th>
+                            {{--
+                            <th class="whitespace-no-wrap">Course name</th>
+                            --}}
+                            <th class="whitespace-no-wrap">Subject code</th>
+                            <th class="whitespace-no-wrap">Percentage</th>
+                            <th class="whitespace-no-wrap">Rate</th>
+                            <th class="whitespace-no-wrap hidden md:block">
+                              comment
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          @foreach ($results as $key => $result) @php $rate =
+                          $result->subject_rate; switch ($rate) { case '7':
+                          $comment = 'Absent'; break; case '8': $comment =
+                          'Fail'; break; case '3': $comment = 'Pass'; break;
+                          default: $comment = 'Distinction'; break; } @endphp
+                          <tr>
+                            <td class="border-b dark:border-dark-5 w-8">
+                              {{$key + 1}}
+                            </td>
+                            {{--
+                            <td class="border-b dark:border-dark-5 uppercase">
+                              Course name
+                            </td>
+                            --}}
+                            <td class="border-b dark:border-dark-5 lowercase">
+                              {{$result->subject_code}}
+                            </td>
+                            <td class="border-b dark:border-dark-5 normal-case">
+                              {{$result->subject_percentage}}
+                            </td>
+                            <td class="border-b dark:border-dark-5">
+                              {{$result->subject_rate}}
+                            </td>
+                            <td class="border-b dark:border-dark-5">
+                              <x-result-badge result="{{$comment}}">
+                                {{$comment}}
+                              </x-result-badge>
+                            </td>
+                          </tr>
+                          @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Credit account Modal -->
+            <!--modal-->
+            <div
+              x-show="showModal"
+              class="overflow-auto absolute inset-0 z-50 flex items-center justify-center"
+              style="background-color: rgba(0, 0, 0, 0.5)"
+              x-cloak
+            >
+              <div
+                class="bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg py-4 text-left px-6"
+                @click.away="showModal = false"
+                x-transition:enter="ease-out duration-300"
+                x-transition:enter-start="opacity-0 scale-90"
+                x-transition:enter-end="opacity-100 scale-100"
+                x-transition:leave="ease-in duration-300"
+                x-transition:leave-start="opacity-100 scale-100"
+                x-transition:leave-end="opacity-0 scale-90"
+              >
+                <!-- Payment Modal content  -->
+                <div x-show="payment">
+                  <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">Allocate payment</p>
+                    <div class="cursor-pointer z-50" @click="showModal = false">
+                      <svg
+                        class="fill-current text-black"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                      >
+                        <path
+                          d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="text-center mb-4">
+                    <div class="mb-2">
+                      <div class="flex gap-2">
+                        <input
+                          wire:model="credit_account"
+                          type="radio"
+                          name="payment"
+                          value="credit"
+                          id="credit_account"
+                        />
+                        <label for="credit_account">Credit Account</label>
+                      </div>
+                      <div class="flex gap-2">
+                        <input
+                          wire:model="debit_account"
+                          type="radio"
+                          name="payment"
+                          value="debit"
+                          id="debit_account"
+                        />
+                        <label for="credit_account">Debit Account</label>
+                      </div>
+                    </div>
+                    <div>
+                      @if ($credit_account)
+                      <div
+                        class="text-xs w-full px-5 py-1 bg-green-300 text-gray-900 rounded-sm"
+                        x-transition:leave="ease-out duration-300"
+                      >
+                        The student account will have a plus this amount
+                      </div>
+                      @endif @if ($debit_account)
+                      <div
+                        class="text-xs w-full px-5 py-1 bg-red-300 text-gray-900 rounded-sm"
+                        x-transition:enter="ease-out duration-300"
+                      >
+                        The student account will be less this amount
+                      </div>
+                      @endif
+                    </div>
+                  </div>
+                  <div class="name w-full">
+                    <label>Amount paid</label>
+                    <input
+                      wire:model="amount_paid"
+                      type="number"
+                      class="input w-full border mb-2"
+                      placeholder="R 350"
+                    />
+                  </div>
+                  @if ($credit_account)
+                  <div class="name w-full">
+                    <label for="payment_method">Payment Method</label>
+                    <select
+                      wire:model="payment_method"
+                      class="input w-full border mb-2"
+                      id="payment_method"
+                    >
+                      <option selected hidden>Select the payment type</option>
+                      <option value="Cash">Cash</option>
+                      <option value="EFT">EFT</option>
+                      <option value="Bank Deposit">Bank Deposit</option>
+                      <option value="Swapping">Swapping</option>
+                    </select>
+                  </div>
+                  @endif
+                  <div class="name w-full">
+                    <label>Date of payment</label>
+                    <input
+                      wire:model="date_paid"
+                      type="date"
+                      class="input w-full border mb-2"
+                      placeholder="2022/05/22"
+                    />
+                  </div>
+                  <div class="name w-full">
+                    <label>Reason</label>
+                    <input
+                      wire:model="payment_reason"
+                      type="text"
+                      class="input w-full border mb-2"
+                      placeholder="Registration fee paid"
+                    />
+                  </div>
+                  <div class="name w-full">
+                    <label>Reference</label>
+                    <input
+                      wire:model="payment_reference"
+                      type="text"
+                      class="input w-full border mb-2"
+                      placeholder="TBE00000000"
+                    />
+                  </div>
+                  <div class="flex justify-end pt-2">
+                    <button
+                      class="px-4 bg-transparent p-3 rounded-lg text-green-600 hover:bg-gray-100 hover:text-green-400 mr-2"
+                      @click="showModal = false"
+                    >
+                      Close
+                    </button>
+                    @if ($credit_account)
+                    <button
+                      wire:click="credit_student({{ $student->id }}, 'payment')"
+                      class="modal-close px-2 bg-green-300 rounded-lg text-black hover:text-white hover:bg-green-500"
+                    >
+                      Credit Account
+                    </button>
+                    @endif @if ($debit_account)
+                    <button
+                      wire:click="credit_student({{ $student->id }}, 'payment')"
+                      class="px-3 py-2 bg-red-300 rounded-lg text-black hover:text-white hover:bg-red-500"
+                    >
+                      Debit Account
+                    </button>
+                    @endif
+                  </div>
+                </div>
+                <!-- Credit Modal content  -->
+                <div x-show="credit">
+                  <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold">Credit student account</p>
+                    <div class="cursor-pointer z-50" @click="showModal = false">
+                      <svg
+                        class="fill-current text-black"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="18"
+                        height="18"
+                        viewBox="0 0 18 18"
+                      >
+                        <path
+                          d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="name w-full">
+                    <label>Crediting amount</label>
+                    <input
+                      wire:model="amount_credit"
+                      type="number"
+                      class="input w-full border mb-2"
+                      placeholder="R 350"
+                    />
+                  </div>
+                  <div class="name w-full">
+                    <label
+                      >Reason
+                      <span class="text-gray-500"> (Work done)</span></label
+                    >
+                    <input
+                      wire:model="credit_reason"
+                      type="text"
+                      class="input w-full border mb-2"
+                      placeholder="Installation assist"
+                    />
+                  </div>
+                  <div class="flex justify-end pt-2">
+                    <button
+                      class="px-4 bg-transparent p-3 rounded-lg text-green-600 hover:bg-gray-100 hover:text-green-400 mr-2"
+                      @click="showModal = false"
+                    >
+                      Close
+                    </button>
+                    <button
+                      wire:click="credit_student({{ $student->id }}, 'credit')"
+                      class="modal-close px-4 bg-green-300 p-3 rounded-lg text-black hover:text-white hover:bg-green-500"
+                    >
+                      Credit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /modal -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      feather.replace();
+    </script>
+    <script src="/public/js/app.js"></script>
+  </body>
+</html>

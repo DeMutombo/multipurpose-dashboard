@@ -7,7 +7,14 @@ module.exports = {
     "./index.html",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        nuni: ["Nunito"],
+      },
+      colors: {
+        "theme-gray": "#F5F7FA",
+      },
+    },
   },
   plugins: [],
 };

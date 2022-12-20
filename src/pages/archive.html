@@ -60,11 +60,15 @@
         <ul class="mt-6">
           <!-- Home  -->
           <li
-            class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm active-navigation"
+            class="relative flex items-center text-gray-400 space-x-2 rounded-md p-2 cursor-pointer bg-gray-800 mb-5 text-sm"
             :class="{'justiy-start' : $store.sidebar.full, 'sm:justify-center': !$store.sidebar.full}"
           >
-            <i data-feather="home" class="h-4 w-4"></i>
-            <h1 :class="$store.sidebar.full ? '' : 'hidden'">Dashboard</h1>
+            <a href="/index.html">
+              <i data-feather="home" class="h-4 w-4"></i>
+              <a href="/index.html" :class="$store.sidebar.full ? '' : 'hidden'"
+                >Dashboard</a
+              >
+            </a>
           </li>
           <!-- Students/  -->
           <li x-data="dropdown" class="relative mb-4 text-sm">
@@ -82,20 +86,20 @@
             <ul
               x-show="open"
               @click.outside="open =false"
-              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'shrinked-dropdown'"
+              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
               class="text-gray-400 space-y-3"
             >
               <li class="hover:text-gray-200 cursor-pointer">
-                <a href="src/pages/add-student-form.html">Add Student</a>
+                <a href="add-student-form.html">Add Student</a>
               </li>
               <li class="hover:text-gray-200 cursor-pointer">
-                <a href="src/pages/all-students.html">All student</a>
+                <a href="all-students.html">All student</a>
               </li>
               <li class="hover:text-gray-200 cursor-pointer">
-                <a href="/src/pages/archive.html">Archived</a>
+                <a href="archive.html">Archived</a>
               </li>
               <li class="hover:text-gray-200 cursor-pointer">
-                <a href="/src/pages/suspended.html">Suspended</a>
+                <a href="suspended.html">Suspended</a>
               </li>
             </ul>
           </li>
@@ -215,7 +219,7 @@
           <div x-data="dropdown" class="relative">
             <div @click="toggle('user')" class="flex items-center gap-4">
               <img
-                src="public/images/avatars/avatar.jpg"
+                src="/public/images/avatars/avatar.jpg"
                 alt=""
                 class="w-8 h-8 rounded-full"
               />
@@ -243,45 +247,106 @@
         <div
           class="top-navigation flex justify-between items-center py-5 text-gray-900"
         >
-          <a href="http://" class="text-gray-800 font-extrabold">Dashboard </a>
+          <a href="http://" class="text-gray-800 font-extrabold"
+            >Archived Students
+          </a>
 
           <div class="text-gray-500 text-sm">Nataline > Dashboard</div>
         </div>
         <div class="content">
-          <div class="grid grid-cols-4 gap-4">
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA] border-slate-500">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">Student Registered</div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
-              </div>
-              <div class="font-bold leading-7">1, 587</div>
-            </div>
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA]">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">
-                  Captured but not Registered
+          <div class="grid grid-cols-12 gap-6 mt-8">
+            <div class="col-span-12 lg:col-span-12 xxl:col-span-12">
+              <!-- BEGIN: student table filter -->
+              <div
+                class="intro-y flex flex-col-reverse sm:flex-row items-center"
+              ></div>
+              <!-- END: student table Filter -->
+              <!-- BEGIN: all student Content -->
+              <div class="mt-3 bg-[#F5F7FA] rounded-md">
+                <div
+                  class="pr-5 py-5 flex flex-col-reverse sm:flex-row text-gray-600 border-b border-gray-200 dark:border-dark-1"
+                >
+                  <div
+                    class="flex items-center mt-3 sm:mt-0 border-t sm:border-0 border-gray-200 pt-5 sm:pt-0 sm:mx-0 sm:px-0"
+                  >
+                    <button
+                      class="w-5 h-5 flex items-center justify-center dark:text-gray-300 ml-2"
+                    >
+                      <i data-feather="refresh-cw" class="w-4 h-4"></i>
+                    </button>
+                  </div>
+                  <div class="sm:flex items-center md:ml-5 sm:mr-4">
+                    <label class="w-12 flex-none xl:w-auto mr-2"
+                      >Per page
+                    </label>
+                    <select class="w-full p-1 border rounded-sm">
+                      <option>20</option>
+                      <option>50</option>
+                      <option>80</option>
+                      <option>150</option>
+                      <option>200</option>
+                    </select>
+                  </div>
+                  <div
+                    class="relative border rounded-md text-gray-700 sm:ml-auto"
+                  >
+                    <input
+                      type="text"
+                      class="w-full lg:w-64 py-1 pl-2 pr-10"
+                      placeholder="Search for student..."
+                    />
+                    <i
+                      class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0"
+                      data-feather="search"
+                    ></i>
+                  </div>
                 </div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
+                <div
+                  class="md:overflow-y-hidden md:overflow-x-auto bg-[#F5F7FA]"
+                >
+                  <table class="table table--sm mt-5 w-full">
+                    <thead>
+                      <tr class="bg-white text-white-700 text-sm mb-3">
+                        <th class="px-2 py-2">#</th>
+                        <th class="text-left">First Name</th>
+                        <th class="text-left">Last Name</th>
+                        <th class="text-left">Email</th>
+                        <th class="text-left">Nationality</th>
+                        <th class="text-left">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr class="text-sm text-gray-500">
+                        <td class="border-b w-8 p-1">1</td>
+                        <td class="border-b">John</td>
+                        <td class="border-b">Smith</td>
+                        <td class="border-b">smithj@gmail.com</td>
+                        <td class="border-b">za</td>
+                        <td class="border-b">
+                          <div class="flex gap-2">
+                            <a
+                              href="#"
+                              class="tooltip inline-block"
+                              title="View student profile"
+                              ><i data-feather="rotate-ccw" class="w-4 h-4"></i>
+                            </a>
+                            <div x-data="dropdown" class="">
+                              <div class="flex">
+                                <a href="#" @click="toggle('settings')">
+                                  <i data-feather="trash" class="w-4 h-4"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Navigation -->
+                <div class="p-5 text-gray-600"></div>
               </div>
-              <div class="font-bold leading-7">1, 587</div>
-            </div>
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA]">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">Outstanding Paymen</div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
-              </div>
-              <div class="font-bold leading-7">1, 587</div>
-            </div>
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA]">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">Today Payments ...</div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
-              </div>
-              <div class="font-bold leading-7">1, 587</div>
+              <!-- END: Inbox Content -->
             </div>
           </div>
         </div>
@@ -291,7 +356,6 @@
     <script>
       feather.replace();
     </script>
-    <!-- <script src="public/js/alpine.js"></script> -->
-    <script src="public/js/app.js"></script>
+    <script src="/public/js/app.js"></script>
   </body>
 </html>
