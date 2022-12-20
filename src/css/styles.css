@@ -20,6 +20,19 @@
   .error {
     @apply text-red-500 text-xs;
   }
+  .alert {
+    @apply w-full p-2 text-sm text-center rounded-md text-gray-700;
+  }
+  .alert-success {
+    @apply bg-green-300;
+  }
+  .button {
+    @apply text-sm px-3 py-2 rounded-md hover:cursor-pointer hover:bg-green-700 hover:text-gray-100;
+  }
+
+  .activeTab {
+    @apply border-b;
+  }
 }
 
 @layer base {

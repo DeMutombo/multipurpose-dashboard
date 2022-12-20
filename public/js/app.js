@@ -1,7 +1,7 @@
 document.addEventListener("alpine:init", () => {
   //store variables
   Alpine.store("sidebar", {
-    full: false,
+    full: true,
     active: "home",
     navOpen: false,
   });

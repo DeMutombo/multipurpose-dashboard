@@ -11,6 +11,9 @@ module.exports = {
       fontFamily: {
         nuni: ["Nunito"],
       },
+      colors: {
+        "theme-gray": "#F5F7FA",
+      },
     },
   },
   plugins: [],
