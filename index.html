@@ -66,7 +66,7 @@
             <i data-feather="home" class="h-4 w-4"></i>
             <h1 :class="$store.sidebar.full ? '' : 'hidden'">Dashboard</h1>
           </li>
-          <!-- Students/  -->
+          <!-- Pages  -->
           <li x-data="dropdown" class="relative mb-4 text-sm">
             <div
               @click="toggle('students')"
@@ -74,7 +74,7 @@
             >
               <div class="relative flex space-x-2 items-center">
                 <i data-feather="users" class="h-4 w-4"></i>
-                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Students</h1>
+                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Pages</h1>
               </div>
               <i data-feather="chevron-down"></i>
             </div>
@@ -100,7 +100,7 @@
             </ul>
           </li>
 
-          <!-- Registration  -->
+          <!-- Calendar  -->
           <li x-data="dropdown" class="relative mb-4 text-sm">
             <div
               @click="toggle('registration')"
@@ -108,9 +108,7 @@
             >
               <div class="relative flex space-x-2 items-center">
                 <i data-feather="edit" class="h-4 w-4"></i>
-                <h1 :class="$store.sidebar.full ? '' : 'hidden'">
-                  Registration
-                </h1>
+                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Calendar</h1>
               </div>
               <i data-feather="chevron-down"></i>
             </div>
@@ -127,17 +125,17 @@
             </div>
           </li>
 
-          <!-- Staff  -->
+          <!-- UI Elements  -->
           <li
             class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer mb-4"
           >
             <i data-feather="users" class="h-4 w-4"></i>
             <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-              Staff
+              UI Elements
             </h1>
           </li>
 
-          <!-- Management  -->
+          <!-- Tables  -->
           <li x-data="dropdown" class="relative mb-4 text-sm">
             <div
               @click="toggle('students')"
@@ -161,24 +159,24 @@
             </ul>
           </li>
 
-          <!-- My Profile  -->
+          <!-- My Forms  -->
           <li
             class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
           >
             <i data-feather="user" class="h-4 w-4"></i>
             <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-              My Profile
+              Forms
             </h1>
           </li>
           <hr class="my-4" />
 
-          <!-- Events  -->
+          <!-- Icons  -->
           <li
             class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
           >
             <i data-feather="star" class="h-4 w-4"></i>
             <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-              Events
+              Icons
             </h1>
           </li>
         </ul>
