@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,200;0,300;0,400;0,600;0,700;0,800;0,900;1,200;1,300;1,400;1,600;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@500&family=Montserrat&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -6,11 +7,11 @@
 
 @layer components {
   .shrinked-dropdown {
-    @apply sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 border-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28;
+    @apply sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-theme-gray sm:rounded-md sm:p-4 border-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28;
   }
 
   .active-navigation {
-    @apply bg-gray-800 text-gray-300;
+    @apply bg-gray-800 text-gray-100;
   }
 
   .input {
@@ -37,6 +38,6 @@
 
 @layer base {
   html {
-    font-family: Nunito, sans-serif;
+    font-family: Poppins, Manrope, sans-serif;
   }
 }

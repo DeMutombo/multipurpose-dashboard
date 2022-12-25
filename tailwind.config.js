@@ -10,9 +10,15 @@ module.exports = {
     extend: {
       fontFamily: {
         nuni: ["Nunito"],
+        popin: ["Poppins"],
       },
       colors: {
-        "theme-gray": "#F5F7FA",
+        "theme-gray": "#2A3042",
+        "body-gray": "#F8F8FB",
+      },
+      fontSize: {
+        s: "13px",
+        xxs: "10px",
       },
     },
   },

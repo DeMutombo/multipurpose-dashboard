@@ -60,7 +60,7 @@
         <ul class="mt-6">
           <!-- Home  -->
           <li
-            class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm active-navigation"
+            class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm text-gray-400"
             :class="{'justiy-start' : $store.sidebar.full, 'sm:justify-center': !$store.sidebar.full}"
           >
             <i data-feather="home" class="h-4 w-4"></i>
@@ -72,7 +72,7 @@
           <li x-data="dropdown" class="relative mb-4 text-sm">
             <div
               @click="toggle('students')"
-              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+              class="flex justify-between active-navigation hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
             >
               <div class="relative flex space-x-2 items-center">
                 <i data-feather="file-text" class="h-4 w-4"></i>
@@ -125,7 +125,6 @@
               </div>
               <i data-feather="chevron-down"></i>
             </div>
-
             <!-- dropdown content for UI Elements  -->
             <ul
               x-show="open"
@@ -137,36 +136,12 @@
                 class="hover:text-gray-200 cursor-pointer"
                 :class="$store.sidebar.full ? 'mt-2' : ''"
               >
-                <a href="/src/pages/components/cards.html"> Cards </a>
+                <a hre="/src/pages/components"> Cards </a>
               </li>
               <li class="hover:text-gray-200 cursor-pointer">Alert</li>
               <li class="hover:text-gray-200 cursor-pointer">Button</li>
               <li class="hover:text-gray-200 cursor-pointer">Modal</li>
             </ul>
-          </li>
-          <!-- Tables  -->
-          <li class="relative mb-4 text-sm">
-            <div
-              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
-            >
-              <div class="relative flex space-x-2 items-center">
-                <i data-feather="list" class="h-4 w-4"></i>
-                <h1 :class="$store.sidebar.full ? '' : 'hidden'">
-                  <a href="/src/pages/tables.html">Tables</a>
-                </h1>
-              </div>
-            </div>
-          </li>
-          <!-- My Forms  -->
-          <li class="relative mb-4 text-sm">
-            <div
-              class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
-            >
-              <i data-feather="edit" class="h-4 w-4"></i>
-              <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-                Forms
-              </h1>
-            </div>
           </li>
 
           <!-- Calendar  -->
@@ -219,15 +194,13 @@
           </li>
 
           <!-- My Forms  -->
-          <li class="relative mb-4 text-sm">
-            <div
-              class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
-            >
-              <i data-feather="user" class="h-4 w-4"></i>
-              <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-                Forms
-              </h1>
-            </div>
+          <li
+            class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
+          >
+            <i data-feather="user" class="h-4 w-4"></i>
+            <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
+              Forms
+            </h1>
           </li>
           <hr class="my-4" />
 
@@ -245,10 +218,10 @@
     </nav>
 
     <!-- content area  -->
-    <div class="w-screen bg-white antialiased">
+    <div class="w-screen bg-body-gray antialiased">
       <!-- Top navigation area  -->
       <div
-        class="w-full flex justify-between items-center bg-[#F5F7FA] h-16 px-8"
+        class="w-full flex justify-between items-center text-gray-500 bg-white h-16 px-8"
       >
         <div x-data="dropdown" class="relative">
           <div @click="toggle('create')" class="flex items-center">
@@ -267,7 +240,7 @@
             <li class="p-2 hover:bg-gray-100 cursor-pointer">Event</li>
           </ul>
         </div>
-        <div class="flex items-center gap-4 text-sm text-gray-700">
+        <div class="flex items-center gap-4 text-sm">
           <div class="relative">
             <div
               class="absolute p1 -top-2 -right-3 bg-red-500 w-4 h-4 z-40 rounded-full text-white flex items-center justify-center text-[9px]"
@@ -282,7 +255,7 @@
           <div x-data="dropdown" class="relative">
             <div @click="toggle('user')" class="flex items-center gap-4">
               <img
-                src="public/images/avatars/avatar.jpg"
+                src="/public/images/avatars/avatar.jpg"
                 alt=""
                 class="w-8 h-8 rounded-full"
               />
@@ -310,49 +283,131 @@
         <div
           class="top-navigation flex justify-between items-center py-5 text-gray-900"
         >
-          <a href="http://" class="text-gray-800 font-extrabold">Dashboard </a>
+          <a href="http://" class="text-gray-600 font-semibold">Tables </a>
 
           <div class="text-gray-500 text-sm flex items-center">
-            <span class="pr-2">Nataline </span>
+            <span class="pr-2">pages </span>
             <i data-feather="chevron-right" class="block w-3 h-3"></i>
-            <span class="pl-2"> Dashboard </span>
+            <span class="pl-2"> tables </span>
           </div>
         </div>
         <div class="content">
-          <div class="grid grid-cols-4 gap-4">
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA] border-slate-500">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">Student Registered</div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
-              </div>
-              <div class="font-bold leading-7">1, 587</div>
+          <div class="bg-white p-5 shadow-md rounded-sm text-s mb-6">
+            <div class="text-gray-800 mb-8">
+              <span class="font-medium"> Responsive table </span>
+              <p class="">
+                Create responsive tables by wrapping any .table in
+                .table-responsive to make them scroll horizontally on small
+                devices (under 768px).
+              </p>
             </div>
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA]">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">
-                  Captured but not Registered
-                </div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
-              </div>
-              <div class="font-bold leading-7">1, 587</div>
-            </div>
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA]">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">Outstanding Paymen</div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
-              </div>
-              <div class="font-bold leading-7">1, 587</div>
-            </div>
-            <!-- card  -->
-            <div class="p-6 rounded-md bg-[#F5F7FA]">
-              <div class="text-icon flex justify-between items-center">
-                <div class="font-bold leading-7">Today Payments ...</div>
-                <span><i data-feather="edit" class="h-4 w-4"></i></span>
-              </div>
-              <div class="font-bold leading-7">1, 587</div>
+            <div class="overflow-auto">
+              <table class="table table-responsive table-auto text-s w-full">
+                <thead class="bg-gray-100">
+                  <tr class="text-gray-600 border-gray-200 hover:bg-gray-100">
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      <input type="checkbox" name="" id="" />
+                    </td>
+                    <th class="px-4 py-3 text-left">#</th>
+                    <th class="px-4 py-3 text-left">Table heading 12</th>
+                    <th class="px-4 py-3 text-left">Table heading 2</th>
+                    <th class="px-4 py-3 text-left">Table heading 3</th>
+                    <th class="px-4 py-3 text-left">Table heading 4</th>
+                    <th class="px-4 py-3 text-left">Table heading 5</th>
+                  </tr>
+                </thead>
+                <tbody class="text-gray-700 divide-y divide-gray-100">
+                  <tr class="border-gray-200 text-s hover:bg-gray-100">
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      <input type="checkbox" name="" id="" />
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">1</td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-1
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-2 should be two
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-3
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-4
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-5
+                    </td>
+                  </tr>
+                  <tr class="border-gray-200 hover:bg-gray-100">
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      <input type="checkbox" name="" id="" />
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">2</td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-1
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-2 should be two letter
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-3
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-4
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-5
+                    </td>
+                  </tr>
+                  <tr class="border-gray-200 hover:bg-gray-100">
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      <input
+                        class="border-red-300"
+                        type="checkbox"
+                        name=""
+                        id=""
+                      />
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">3</td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-1
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-2 should be two letter longer
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-3
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-4
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-5
+                    </td>
+                  </tr>
+                  <tr class="border-gray-200 hover:bg-gray-100">
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      <input type="checkbox" name="" id="" />
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">4</td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-1
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-2 should be two letter longer than
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-3
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-4
+                    </td>
+                    <td class="px-4 py-3 text-left whitespace-nowrap">
+                      Text-5
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -362,7 +417,6 @@
     <script>
       feather.replace();
     </script>
-    <!-- <script src="public/js/alpine.js"></script> -->
-    <script src="public/js/app.js"></script>
+    <script src="/public/js/app.js"></script>
   </body>
 </html>
