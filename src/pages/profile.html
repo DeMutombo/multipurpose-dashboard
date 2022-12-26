@@ -18,29 +18,228 @@
     }
   </style>
 
-  <body x-data class="h-screen antialiased flex">
-    <!-- side Navigation  -->
-    <nav
-      class="h-screen bg-gray-900 transition-all duration-300 space-y-2 fixed sm:relative"
-      x-bind:class="{'w-64':$store.sidebar.full, 'w-64 sm:w-20':!$store.sidebar.full, 'top-0 left-0':$store.sidebar.navOpen, 'top-0 -lef-64 sm:left-0':!$store.sidebar.full}"
-    >
-      <div class="w-full flex text-center h-16 items-center">
-        <a
-          href=""
-          class="text-white font-black text-center w-full"
-          x-bind:class="$store.sidebar.full ? 'text-2xl px-5' : 'px-4 xm:px-2'  "
+  <body x-data class="h-screen antialiased">
+    <!-- content area main content  -->
+    <div class="w-screen bg-body-gray antialiased flex relative">
+      <!-- side Navigation  -->
+      <div class="fixed mt-10">
+        <nav
+          class="h-screen bg-theme-gray transition-all duration-300 space-y-2 fixed sm:relative"
+          x-bind:class="{'w-64':$store.sidebar.full, 'w-64 sm:w-20':!$store.sidebar.full, '':$store.sidebar.navOpen, 'hidden sm:block':!$store.sidebar.navOpen}"
         >
-          LOGO
-        </a>
+          <!-- navigation list -->
+          <div class="px-4">
+            <!-- toggle sidebar  -->
+            <button
+              @click="$store.sidebar.full = !$store.sidebar.full"
+              class="hidden sm:block absolute p-1 -right-3 top-5 bg-gray-900 rounded-full shadow-md z-40"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="feather feather-chevron-down h-5 w-5 text-white transform"
+                x-bind:class="$store.sidebar.full ? 'rotate-90' : '-rotate-90' "
+              >
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+
+            <ul class="mt-6 pt-5">
+              <!-- Home  -->
+              <li
+                class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm text-gray-400"
+                :class="{'justiy-start' : $store.sidebar.full, 'sm:justify-center': !$store.sidebar.full}"
+              >
+                <i data-feather="home" class="h-4 w-4"></i>
+                <h1 :class="$store.sidebar.full ? '' : 'hidden'">
+                  <a href="/index.html">Dashboard</a>
+                </h1>
+              </li>
+              <!-- Pages  -->
+              <li x-data="dropdown" class="relative mb-4 text-sm">
+                <div
+                  @click="toggle('students')"
+                  class="flex justify-between active-navigation hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+                >
+                  <div class="relative flex space-x-2 items-center">
+                    <i data-feather="file-text" class="h-4 w-4"></i>
+                    <h1 :class="$store.sidebar.full ? '' : 'hidden'">Pages</h1>
+                  </div>
+                  <i data-feather="chevron-down"></i>
+                </div>
+                <!-- dropdown content for pages  -->
+                <ul
+                  x-show="open"
+                  @click.outside="open =false"
+                  :class="$store.sidebar.full ? 'border-l border-gray-400 ml-6 pl-4 text-sm' : 'shrinked-dropdown'"
+                  class="text-gray-400 space-y-3"
+                >
+                  <li
+                    class="text-gray-100 hover:text-gray-200 cursor-pointer"
+                    :class="$store.sidebar.full ? 'mt-2' : ''"
+                  >
+                    <a href="/src/pages/starter.html">Starter</a>
+                  </li>
+                  <li
+                    class="hover:text-gray-200 cursor-pointer"
+                    :class="$store.sidebar.full ? 'mt-2' : ''"
+                  >
+                    <a href="profile.html">Profile</a>
+                  </li>
+                  <li class="hover:text-gray-200 cursor-pointer">
+                    <a href="src/pages/invoice.html">Invoice</a>
+                  </li>
+                  <li class="hover:text-gray-200 cursor-pointer">
+                    <a href="/src/pages/archive.html">Login</a>
+                  </li>
+                  <li class="hover:text-gray-200 cursor-pointer">
+                    <a href="/src/pages/suspended.html">Register</a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- UI Elements  -->
+              <li x-data="dropdown" class="relative mb-4 text-sm">
+                <div
+                  @click="toggle('ui-element')"
+                  class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+                >
+                  <div class="relative flex space-x-2 items-center">
+                    <i data-feather="layers" class="h-4 w-4"></i>
+                    <h1 :class="$store.sidebar.full ? '' : 'hidden'">
+                      UI Elements
+                    </h1>
+                  </div>
+                  <i data-feather="chevron-down"></i>
+                </div>
+                <!-- dropdown content for UI Elements  -->
+                <ul
+                  x-show="open"
+                  @click.outside="open =false"
+                  :class="$store.sidebar.full ? 'border-l border-gray-400 ml-6 pl-4 text-sm' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+                  class="text-gray-400 space-y-3"
+                >
+                  <li
+                    class="hover:text-gray-200 cursor-pointer"
+                    :class="$store.sidebar.full ? 'mt-2' : ''"
+                  >
+                    <a href="/src/pages/components/cards.html"> Cards </a>
+                  </li>
+                  <li class="hover:text-gray-200 cursor-pointer">Alert</li>
+                  <li class="hover:text-gray-200 cursor-pointer">Button</li>
+                  <li class="hover:text-gray-200 cursor-pointer">Modal</li>
+                </ul>
+              </li>
+
+              <!-- Calendar  -->
+              <li x-data="dropdown" class="relative mb-4 text-sm">
+                <div
+                  @click="toggle('registration')"
+                  class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+                >
+                  <div class="relative flex space-x-2 items-center">
+                    <i data-feather="calendar" class="h-4 w-4"></i>
+                    <h1 :class="$store.sidebar.full ? '' : 'hidden'">
+                      Calendar
+                    </h1>
+                  </div>
+                  <i data-feather="chevron-down"></i>
+                </div>
+
+                <!-- dropdown content  -->
+                <div
+                  x-show="open"
+                  @click.outside="open =false"
+                  :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+                  class="text-gray-400 space-y-3"
+                >
+                  <h1 class="hover:text-gray-200 cursor-pointer">Item 1</h1>
+                  <h1 class="hover:text-gray-200 cursor-pointer">Item 2</h1>
+                </div>
+              </li>
+
+              <!-- Tables  -->
+              <li x-data="dropdown" class="relative mb-4 text-sm">
+                <div
+                  @click="toggle('students')"
+                  class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+                >
+                  <div class="relative flex space-x-2 items-center">
+                    <i data-feather="clipboard" class="h-4 w-4"></i>
+                    <h1 :class="$store.sidebar.full ? '' : 'hidden'">
+                      Management
+                    </h1>
+                  </div>
+                  <i data-feather="chevron-down"></i>
+                </div>
+                <!-- dropdown content  -->
+                <ul
+                  x-show="open"
+                  @click.outside="open =false"
+                  :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+                  class="text-gray-400 space-y-3"
+                >
+                  <li class="hover:text-gray-200 cursor-pointer">Item 1</li>
+                  <li class="hover:text-gray-200 cursor-pointer">Item 2</li>
+                </ul>
+              </li>
+
+              <!-- My Forms  -->
+              <li
+                class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
+              >
+                <i data-feather="user" class="h-4 w-4"></i>
+                <h1
+                  class="text-sm"
+                  :class="$store.sidebar.full ? '' : 'hidden'"
+                >
+                  Forms
+                </h1>
+              </li>
+              <hr class="my-4" />
+
+              <!-- Icons  -->
+              <li
+                class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
+              >
+                <i data-feather="star" class="h-4 w-4"></i>
+                <h1
+                  class="text-sm"
+                  :class="$store.sidebar.full ? '' : 'hidden'"
+                >
+                  Icons
+                </h1>
+              </li>
+            </ul>
+          </div>
+        </nav>
       </div>
-      <!-- navigation list -->
-      <div class="px-4">
-        <!-- toggle sidebar  -->
-        <button
-          @click="$store.sidebar.full = !$store.sidebar.full"
-          class="hidden sm:block absolute p-1 -right-3 top-5 bg-gray-900 rounded-full shadow-md"
+      <!-- Top navigation area  -->
+      <div class="w-full flex items-center text-gray-500 bg-white h-16 fixed">
+        <div
+          class="hidden sm:flex shrink-0 text-center h-full items-center bg-theme-gray"
+          :class="$store.sidebar.full ? 'sm:w-64 ' : 'w-20' "
+        >
+          <a
+            href=""
+            class="text-white font-black text-center w-full"
+            x-bind:class="$store.sidebar.full ? 'text-2xl px-5' : 'px-4 xm:px-2'  "
+          >
+            LOGO
+          </a>
+        </div>
+        <div
+          class="flex justify-between gap-8 px-5 sm:px-10 w-full h-full items-center"
         >
           <svg
+            @click="$store.sidebar.navOpen = !$store.sidebar.navOpen"
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
@@ -50,220 +249,116 @@
             stroke-width="2"
             stroke-linecap="round"
             stroke-linejoin="round"
-            class="feather feather-chevron-down h-5 w-5 text-white transform"
-            x-bind:class="$store.sidebar.full ? 'rotate-90' : '-rotate-90' "
+            class="sm:hidden feather feather-bar-chart-2 rotate-90"
+            :class="$store.sidebar.navOpen ? 'hidden'  :''"
           >
-            <polyline points="6 9 12 15 18 9"></polyline>
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
           </svg>
-        </button>
-
-        <ul class="mt-6">
-          <!-- Home  -->
-          <li
-            class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm active-navigation"
-            :class="{'justiy-start' : $store.sidebar.full, 'sm:justify-center': !$store.sidebar.full}"
+          <div
+            @click="$store.sidebar.navOpen = !$store.sidebar.navOpen"
+            class="sm:hidden"
+            :class="$store.sidebar.navOpen ? '' : 'hidden'"
           >
-            <i data-feather="home" class="h-4 w-4"></i>
-            <h1 :class="$store.sidebar.full ? '' : 'hidden'">Dashboard</h1>
-          </li>
-          <!-- Pages  -->
-          <li x-data="dropdown" class="relative mb-4 text-sm">
-            <div
-              @click="toggle('students')"
-              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
-            >
-              <div class="relative flex space-x-2 items-center">
-                <i data-feather="file-text" class="h-4 w-4"></i>
-                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Pages</h1>
-              </div>
-              <i data-feather="chevron-down"></i>
-            </div>
-            <!-- dropdown content  -->
-            <ul
-              x-show="open"
-              @click.outside="open =false"
-              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-6 pl-4 text-sm' : 'shrinked-dropdown'"
-              class="text-gray-400 space-y-3"
-            >
-              <li class="hover:text-gray-200 cursor-pointer" :class="$store.sidebar.full ? 'mt-2' : ''"">
-                <a href="/src/pages/starter.html">Starter</a>
-              </li>
-              <li class="hover:text-gray-200 cursor-pointer" :class="$store.sidebar.full ? 'mt-2' : ''"">
-                <a href="/src/pages/profile.html">Profile</a>
-              </li>
-              <li class="hover:text-gray-200 cursor-pointer">
-                <a href="src/pages/invoice.html">Invoice</a>
-              </li>
-              <li class="hover:text-gray-200 cursor-pointer">
-                <a href="/src/pages/archive.html">Login</a>
-              </li>
-              <li class="hover:text-gray-200 cursor-pointer">
-                <a href="/src/pages/suspended.html">Register</a>
-              </li>
-            </ul>
-          </li>
-
-          <!-- Calendar  -->
-          <li x-data="dropdown" class="relative mb-4 text-sm">
-            <div
-              @click="toggle('registration')"
-              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
-            >
-              <div class="relative flex space-x-2 items-center">
-                <i data-feather="edit" class="h-4 w-4"></i>
-                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Calendar</h1>
-              </div>
-              <i data-feather="chevron-down"></i>
-            </div>
-
-            <!-- dropdown content  -->
-            <div
-              x-show="open"
-              @click.outside="open =false"
-              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
-              class="text-gray-400 space-y-3"
-            >
-              <h1 class="hover:text-gray-200 cursor-pointer">Item 1</h1>
-              <h1 class="hover:text-gray-200 cursor-pointer">Item 2</h1>
-            </div>
-          </li>
-
-          <!-- UI Elements  -->
-          <li
-            class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer mb-4"
-          >
-            <i data-feather="users" class="h-4 w-4"></i>
-            <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-              UI Elements
-            </h1>
-          </li>
-
-          <!-- Tables  -->
-          <li x-data="dropdown" class="relative mb-4 text-sm">
-            <div
-              @click="toggle('students')"
-              class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
-            >
-              <div class="relative flex space-x-2 items-center">
-                <i data-feather="clipboard" class="h-4 w-4"></i>
-                <h1 :class="$store.sidebar.full ? '' : 'hidden'">Management</h1>
-              </div>
-              <i data-feather="chevron-down"></i>
-            </div>
-            <!-- dropdown content  -->
-            <ul
-              x-show="open"
-              @click.outside="open =false"
-              :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
-              class="text-gray-400 space-y-3"
-            >
-              <li class="hover:text-gray-200 cursor-pointer">Item 1</li>
-              <li class="hover:text-gray-200 cursor-pointer">Item 2</li>
-            </ul>
-          </li>
-
-          <!-- My Forms  -->
-          <li
-            class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
-          >
-            <i data-feather="user" class="h-4 w-4"></i>
-            <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-              Forms
-            </h1>
-          </li>
-          <hr class="my-4" />
-
-          <!-- Icons  -->
-          <li
-            class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
-          >
-            <i data-feather="star" class="h-4 w-4"></i>
-            <h1 class="text-sm" :class="$store.sidebar.full ? '' : 'hidden'">
-              Icons
-            </h1>
-          </li>
-        </ul>
-      </div>
-    </nav>
-
-    <!-- content area  -->
-    <div class="w-screen bg-theme-gray antialiased">
-      <!-- Top navigation area  -->
-      <div class="w-full flex justify-between items-center bg-white h-16 px-8">
-        <div x-data="dropdown" class="relative">
-          <div @click="toggle('create')" class="flex items-center">
-            <span class="text-sm">+ Create New </span>
-            <span>
-              <i data-feather="chevron-down" class="h-4 w-4 ml-2"></i>
-            </span>
+            <i data-feather="x" class="cursor-pointer hover:text-red-500"></i>
           </div>
-          <ul
-            x-show="open"
-            @click.outside="open =false"
-            class="py-4 bg-white absolute top-10 w-full rounded-md shadow-md"
-          >
-            <li class="p-2 hover:bg-gray-100 cursor-pointer">Student</li>
-            <li class="p-2 hover:bg-gray-100 cursor-pointer">Staff</li>
-            <li class="p-2 hover:bg-gray-100 cursor-pointer">Event</li>
-          </ul>
-        </div>
-        <div class="flex items-center gap-4 text-sm text-gray-700">
-          <div class="relative">
-            <div
-              class="absolute -top-2 -right-3 bg-red-500 w-3 h-3 z-40 rounded-full text-red-500"
-            >
-              1
-            </div>
-            <i data-feather="mail" class="h-5 w-5"></i>
-          </div>
-          <div class="">
-            <i data-feather="bell" class="h-5 w-5"></i>
-          </div>
-          <div x-data="dropdown" class="relative">
-            <div @click="toggle('user')" class="flex items-center gap-4">
-              <img
-                src="/public/images/avatars/avatar.jpg"
-                alt=""
-                class="w-8 h-8 rounded-full"
-              />
-              <div class="flex items-center">
-                <span class="text-sm">Nataline</span>
-                <i
-                  data-feather="chevron-down"
-                  class="h-4 w-4 ml-2 cursor-pointer"
-                ></i>
-              </div>
+
+          <div x-data="dropdown" class="relative hidden sm:block">
+            <div @click="toggle('create')" class="flex items-center">
+              <span class="text-sm">+ Create New </span>
+              <span>
+                <i data-feather="chevron-down" class="h-4 w-4 ml-2"></i>
+              </span>
             </div>
             <ul
               x-show="open"
               @click.outside="open =false"
-              class="py-4 bg-white absolute top-12 w-full rounded-md shadow-md"
+              class="py-4 bg-white absolute top-10 w-36 rounded-md shadow-md text-sm"
             >
-              <li class="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
-              <li class="p-2 hover:bg-gray-100 cursor-pointer">logout</li>
+              <li class="p-2 hover:bg-gray-100 cursor-pointer">Student</li>
+              <li class="p-2 hover:bg-gray-100 cursor-pointer">Staff</li>
+              <li class="p-2 hover:bg-gray-100 cursor-pointer">Event</li>
             </ul>
+          </div>
+          <div class="flex items-center gap-4 text-sm">
+            <div class="relative">
+              <div
+                class="absolute p1 -top-2 -right-3 bg-red-500 w-4 h-4 z-40 rounded-full text-white flex items-center justify-center text-[9px]"
+              >
+                24
+              </div>
+              <i data-feather="mail" class="h-5 w-5"></i>
+            </div>
+            <div class="">
+              <i data-feather="bell" class="h-5 w-5"></i>
+            </div>
+            <div x-data="dropdown" class="relative">
+              <div @click="toggle('user')" class="flex items-center sm:gap-4">
+                <img
+                  src="/public/images/avatars/avatar.jpg"
+                  alt=""
+                  class="w-8 h-8 rounded-full"
+                />
+                <div class="flex items-center">
+                  <span class="hidden sm:block text-sm">Nataline</span>
+                  <i
+                    data-feather="chevron-down"
+                    class="h-4 w-4 ml-2 cursor-pointer"
+                  ></i>
+                </div>
+              </div>
+              <ul
+                x-show="open"
+                @click.outside="open =false"
+                class="py-4 bg-white absolute top-12 w-full rounded-md shadow-md"
+              >
+                <li class="p-2 hover:bg-gray-100 cursor-pointer">Profile</li>
+                <li class="p-2 hover:bg-gray-100 cursor-pointer">logout</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-      <div class="w-full px-10 mx-auto">
-        <div class="content">
+      <!-- Main body content  -->
+      <div class="w-full px-10 mx-auto mt-16">
+        <!-- breadcrumbs section -->
+        <div
+          class="top-navigation flex justify-between items-center py-5 text-gray-900"
+          :class="$store.sidebar.full ? 'sm:ml-64' : 'ml-20' "
+        >
+          <a href="http://" class="text-gray-600 font-semibold">
+            Profile page
+          </a>
+
+          <div class="text-gray-500 text-sm flex items-center">
+            <span class="pr-2">Pages </span>
+            <i data-feather="chevron-right" class="block w-3 h-3"></i>
+            <span class="pl-2"> profile </span>
+          </div>
+        </div>
+        <!-- Body content  -->
+        <div
+          class="h-full overflow-y-auto content"
+          :class="$store.sidebar.full ? 'sm:ml-64' : 'ml-20' "
+        >
           <div
             x-data="{
-              showModal:@entangle('showPaymentModal'),
-              credit:false,
-              payment:false,
-              toggleModal(modal){
-                  this.showModal=true
-                  if(modal === 'credit'){
-                      this.payment = false
-                      this.credit=true
-                  }else if(modal === 'payment'){
-                      this.credit = false
-                      this.payment = true
-                  }
-              },
-          
-              }"
+          showModal:@entangle('showPaymentModal'),
+          credit:false,
+          payment:false,
+          toggleModal(modal){
+              this.showModal=true
+              if(modal === 'credit'){
+                  this.payment = false
+                  this.credit=true
+              }else if(modal === 'payment'){
+                  this.credit = false
+                  this.payment = true
+              }
+          },
+      
+          }"
             @keydown.escape="showModal = false"
           >
             <div>
@@ -272,8 +367,8 @@
             <!-- BEGIN: Content -->
             <div
               x-data="{
-                      openTab:1
-                  }"
+                  openTab:1
+              }"
               class="content"
             >
               <div
@@ -288,17 +383,6 @@
                   class="w-4 h-4 ml-auto cursor-pointer"
                   @click="showWarning = false"
                 />
-              </div>
-              <div class="flex justify-between mt-8">
-                <h2 class="">
-                  Profile page
-                </h2>
-                <!-- Bread Crumb  -->
-                <div class="text-gray-500 text-sm flex items-center">
-                  <span class="pr-2">students page </span>
-                  <i data-feather="chevron-right" class="block w-3 h-3"></i>
-                  <span class="pl-2"> Add student form </span>
-                </div>
               </div>
               <!-- BEGIN: Profile Info -->
               <div class="px-5 pt-5 mt-5 shadow-md bg-white">
@@ -358,13 +442,13 @@
                   </div>
                 </div>
                 <div
-                  class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start bg-white text-sm text-gray-300"
+                  class="nav-tabs flex flex-col sm:flex-row justify-center lg:justify-start bg-white text-sm"
                 >
                   <a
                     @click="openTab = 1"
                     href="#"
                     :class="openTab === 1 ? 'activeTab' : ''"
-                    class="py-4 sm:mr-8 flex items-center"
+                    class="py-4 sm:mr-8 flex items-center hover:text-gray-500 text-gray-600"
                   >
                     <i data-feather="user" class="w-4 h-5 mr-2"></i> Personal
                     Details
@@ -373,7 +457,7 @@
                     @click="openTab = 2"
                     href="#"
                     :class="openTab === 2 ? 'active' : ''"
-                    class="py-4 sm:mr-8 flex items-center"
+                    class="py-4 sm:mr-8 flex items-center hover:text-gray-500 text-gray-400"
                   >
                     <i data-feather="shield" class="w-4 h-5 mr-2"></i>
                     Account
@@ -382,7 +466,7 @@
                     @click="openTab = 3"
                     href="#"
                     :class="openTab === 3 ? 'active' : ''"
-                    class="py-4 sm:mr-8 flex items-center"
+                    class="py-4 sm:mr-8 flex items-center hover:text-gray-500 text-gray-400"
                   >
                     <i data-feather="lock" class="w-4 h-5 mr-2"></i>Change
                     Password</a
@@ -391,7 +475,7 @@
                     @click="openTab = 4"
                     href="#"
                     :class="openTab === 4 ? 'active' : ''"
-                    class="py-4 sm:mr-8 flex items-center"
+                    class="py-4 sm:mr-8 flex items-center hover:text-gray-500 text-gray-400"
                   >
                     <i data-feather="settings" class="w-4 h-5 mr-2"></i>
                     Settings</a
@@ -484,12 +568,16 @@
                           <td>example@you.com</td>
                         </tr>
                         <tr>
-                          <td class="font-medium text-gray-700">Guardian Name</td>
+                          <td class="font-medium text-gray-700">
+                            Guardian Name
+                          </td>
                           <td class="sm:px-3">:</td>
                           <td>Master</td>
                         </tr>
                         <tr>
-                          <td class="font-medium text-gray-700">Guardian Cell</td>
+                          <td class="font-medium text-gray-700">
+                            Guardian Cell
+                          </td>
                           <td class="sm:px-3">:</td>
                           <td>012 7789 542</td>
                         </tr>
@@ -516,14 +604,14 @@
                       <!-- Invoice dropdown -->
                       <div
                         x-data="{
-                                          open:false,
-                                          toggle(){
-                                              this.open = this.open ? this.close() : true
-                                          },
-                                          close(){
-                                              this.open = false
-                                          }
-                                      }"
+                                      open:false,
+                                      toggle(){
+                                          this.open = this.open ? this.close() : true
+                                      },
+                                      close(){
+                                          this.open = false
+                                      }
+                                  }"
                         @keydown.escape.prevent.stop="close()"
                         class="relative inline-block text-left mr-2"
                       >
@@ -743,14 +831,14 @@
                       <!-- Proof of registration dropdown -->
                       <div
                         x-data="{
-                                              open:false,
-                                              toggle(){
-                                                  this.open = this.open ? this.close() : true
-                                              },
-                                              close(){
-                                                  this.open = false
-                                              }
-                                          }"
+                                          open:false,
+                                          toggle(){
+                                              this.open = this.open ? this.close() : true
+                                          },
+                                          close(){
+                                              this.open = false
+                                          }
+                                      }"
                         @keydown.escape.prevent.stop="close()"
                         class="relative inline-block text-left"
                       >
@@ -811,14 +899,14 @@
                       </div>
                       <div
                         x-data="{
-                                              open:false,
-                                              toggle(){
-                                                  this.open = this.open ? this.close() : true
-                                              },
-                                              close(){
-                                                  this.open = false
-                                              }
-                                          }"
+                                          open:false,
+                                          toggle(){
+                                              this.open = this.open ? this.close() : true
+                                          },
+                                          close(){
+                                              this.open = false
+                                          }
+                                      }"
                         @keydown.escape.prevent.stop="close()"
                         class="relative inline-block text-left md:ml-3"
                       >
@@ -943,14 +1031,14 @@
                       {{--
                       <div
                         x-data="{
-                                              open:false,
-                                              toggle(){
-                                                  this.open = this.open ? this.close() : true
-                                              },
-                                              close(){
-                                                  this.open = false
-                                              }
-                                          }"
+                                          open:false,
+                                          toggle(){
+                                              this.open = this.open ? this.close() : true
+                                          },
+                                          close(){
+                                              this.open = false
+                                          }
+                                      }"
                         @keydown.escape.prevent.stop="close()"
                         class="relative inline-block text-left"
                       >
@@ -1012,14 +1100,14 @@
                       --}} {{--
                       <div
                         x-data="{
-                                              open:false,
-                                              toggle(){
-                                                  this.open = this.open ? this.close() : true
-                                              },
-                                              close(){
-                                                  this.open = false
-                                              }
-                                          }"
+                                          open:false,
+                                          toggle(){
+                                              this.open = this.open ? this.close() : true
+                                          },
+                                          close(){
+                                              this.open = false
+                                          }
+                                      }"
                         @keydown.escape.prevent.stop="close()"
                         class="relative inline-block text-left md:ml-3"
                       >
