@@ -1,3 +1,3 @@
-# All purpose Dashboard by Mutombo
+# All purpose dashboard by Mutombo 😉
 
 ![Markdown Logo](Dashboard.png "Markdown Tutorial")
