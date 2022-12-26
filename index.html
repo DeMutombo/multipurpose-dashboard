@@ -51,7 +51,7 @@
               </svg>
             </button>
 
-            <ul class="mt-6 pt-5">
+            <ul class="mt-6">
               <!-- Home  -->
               <li
                 class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm active-navigation"
@@ -119,6 +119,7 @@
                   </div>
                   <i data-feather="chevron-down"></i>
                 </div>
+
                 <!-- dropdown content for UI Elements  -->
                 <ul
                   x-show="open"
@@ -130,51 +131,44 @@
                     class="hover:text-gray-200 cursor-pointer"
                     :class="$store.sidebar.full ? 'mt-2' : ''"
                   >
-                    <a href="src/pages/components/cards.html"> Cards </a>
+                    <a href="/src/pages/components/cards.html"> Cards </a>
                   </li>
                   <li class="hover:text-gray-200 cursor-pointer">Alert</li>
                   <li class="hover:text-gray-200 cursor-pointer">Button</li>
                   <li class="hover:text-gray-200 cursor-pointer">Modal</li>
                 </ul>
               </li>
-
-              <!-- My Forms  -->
-              <li
-                class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
-              >
-                <i data-feather="user" class="h-4 w-4"></i>
-                <h1
-                  class="text-sm"
-                  :class="$store.sidebar.full ? '' : 'hidden'"
-                >
-                  Forms
-                </h1>
-              </li>
-
               <!-- Tables  -->
-              <li x-data="dropdown" class="relative mb-4 text-sm">
+              <li class="relative mb-4 text-sm">
                 <div
-                  @click="toggle('students')"
                   class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
                 >
                   <div class="relative flex space-x-2 items-center">
-                    <i data-feather="clipboard" class="h-4 w-4"></i>
+                    <i data-feather="list" class="h-4 w-4"></i>
                     <h1 :class="$store.sidebar.full ? '' : 'hidden'">
-                      Management
+                      <a href="/src/pages/tables.html">Tables</a>
                     </h1>
                   </div>
-                  <i data-feather="chevron-down"></i>
                 </div>
-                <!-- dropdown content  -->
-                <ul
-                  x-show="open"
-                  @click.outside="open =false"
-                  :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
-                  class="text-gray-400 space-y-3"
+              </li>
+              <!-- My Forms  -->
+              <li class="relative mb-4 text-sm">
+                <div
+                  class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
                 >
-                  <li class="hover:text-gray-200 cursor-pointer">Item 1</li>
-                  <li class="hover:text-gray-200 cursor-pointer">Item 2</li>
-                </ul>
+                  <a
+                    href="/src/pages/components/forms.html"
+                    class="flex space-x-2"
+                  >
+                    <i data-feather="edit" class="h-4 w-4"></i>
+                    <h1
+                      class="text-sm"
+                      :class="$store.sidebar.full ? '' : 'hidden'"
+                    >
+                      Forms
+                    </h1>
+                  </a>
+                </div>
               </li>
 
               <!-- Calendar  -->
@@ -204,17 +198,30 @@
                 </div>
               </li>
 
-              <!-- My Forms  -->
-              <li
-                class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
-              >
-                <i data-feather="user" class="h-4 w-4"></i>
-                <h1
-                  class="text-sm"
-                  :class="$store.sidebar.full ? '' : 'hidden'"
+              <!-- Tables  -->
+              <li x-data="dropdown" class="relative mb-4 text-sm">
+                <div
+                  @click="toggle('students')"
+                  class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
                 >
-                  Forms
-                </h1>
+                  <div class="relative flex space-x-2 items-center">
+                    <i data-feather="clipboard" class="h-4 w-4"></i>
+                    <h1 :class="$store.sidebar.full ? '' : 'hidden'">
+                      Management
+                    </h1>
+                  </div>
+                  <i data-feather="chevron-down"></i>
+                </div>
+                <!-- dropdown content  -->
+                <ul
+                  x-show="open"
+                  @click.outside="open =false"
+                  :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+                  class="text-gray-400 space-y-3"
+                >
+                  <li class="hover:text-gray-200 cursor-pointer">Item 1</li>
+                  <li class="hover:text-gray-200 cursor-pointer">Item 2</li>
+                </ul>
               </li>
               <hr class="my-4" />
 
@@ -350,7 +357,7 @@
         </div>
         <!-- Body content  -->
         <div
-          class="h-full overflow-y-auto content"
+          class="h-screen overflow-y-auto"
           :class="$store.sidebar.full ? 'sm:ml-64' : 'ml-20' "
         ></div>
       </div>

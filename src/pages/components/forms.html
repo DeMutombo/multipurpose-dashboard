@@ -51,7 +51,7 @@
               </svg>
             </button>
 
-            <ul class="mt-6 pt-5">
+            <ul class="mt-6">
               <!-- Home  -->
               <li
                 class="relative flex items-center space-x-2 rounded-md p-2 cursor-pointer mb-5 text-sm text-gray-400"
@@ -66,7 +66,7 @@
               <li x-data="dropdown" class="relative mb-4 text-sm">
                 <div
                   @click="toggle('students')"
-                  class="flex justify-between active-navigation hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+                  class="flex justify-between hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer active-navigation"
                 >
                   <div class="relative flex space-x-2 items-center">
                     <i data-feather="file-text" class="h-4 w-4"></i>
@@ -119,6 +119,7 @@
                   </div>
                   <i data-feather="chevron-down"></i>
                 </div>
+
                 <!-- dropdown content for UI Elements  -->
                 <ul
                   x-show="open"
@@ -130,12 +131,44 @@
                     class="hover:text-gray-200 cursor-pointer"
                     :class="$store.sidebar.full ? 'mt-2' : ''"
                   >
-                    <a hre="/src/pages/components"> Cards </a>
+                    <a href="/src/pages/components/cards.html"> Cards </a>
                   </li>
                   <li class="hover:text-gray-200 cursor-pointer">Alert</li>
                   <li class="hover:text-gray-200 cursor-pointer">Button</li>
                   <li class="hover:text-gray-200 cursor-pointer">Modal</li>
                 </ul>
+              </li>
+              <!-- Tables  -->
+              <li class="relative mb-4 text-sm">
+                <div
+                  class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
+                >
+                  <div class="relative flex space-x-2 items-center">
+                    <i data-feather="list" class="h-4 w-4"></i>
+                    <h1 :class="$store.sidebar.full ? '' : 'hidden'">
+                      <a href="/src/pages/tables.html">Tables</a>
+                    </h1>
+                  </div>
+                </div>
+              </li>
+              <!-- My Forms  -->
+              <li class="relative mb-4 text-sm">
+                <div
+                  class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
+                >
+                  <a
+                    href="/src/pages/components/forms.html"
+                    class="flex space-x-2"
+                  >
+                    <i data-feather="edit" class="h-4 w-4"></i>
+                    <h1
+                      class="text-sm"
+                      :class="$store.sidebar.full ? '' : 'hidden'"
+                    >
+                      Forms
+                    </h1>
+                  </a>
+                </div>
               </li>
 
               <!-- Calendar  -->
@@ -189,19 +222,6 @@
                   <li class="hover:text-gray-200 cursor-pointer">Item 1</li>
                   <li class="hover:text-gray-200 cursor-pointer">Item 2</li>
                 </ul>
-              </li>
-
-              <!-- My Forms  -->
-              <li
-                class="relative flex items-center text-gray-400 hover:text-gray-200 hover:bg-gray-800 space-x-2 rounded-md p-2 cursor-pointer"
-              >
-                <i data-feather="user" class="h-4 w-4"></i>
-                <h1
-                  class="text-sm"
-                  :class="$store.sidebar.full ? '' : 'hidden'"
-                >
-                  Forms
-                </h1>
               </li>
               <hr class="my-4" />
 
