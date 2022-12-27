@@ -50,6 +50,7 @@
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
+
             <ul class="mt-6">
               <!-- Home  -->
               <li
@@ -108,7 +109,7 @@
               <li x-data="dropdown" class="relative mb-4 text-sm">
                 <div
                   @click="toggle('ui-element')"
-                  class="flex justify-between hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer active-navigation"
+                  class="flex justify-between text-gray-400 hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer"
                 >
                   <div class="relative flex space-x-2 items-center">
                     <i data-feather="layers" class="h-4 w-4"></i>
@@ -127,7 +128,7 @@
                   class="text-gray-400 space-y-3"
                 >
                   <li
-                    class="hover:text-gray-200 text-gray-100 cursor-pointer"
+                    class="hover:text-gray-200 cursor-pointer"
                     :class="$store.sidebar.full ? 'mt-2' : ''"
                   >
                     <a href="/src/pages/components/cards.html"> Cards </a>
@@ -167,6 +168,41 @@
                       Forms
                     </h1>
                   </a>
+                </div>
+              </li>
+
+              <!-- Jobs  -->
+              <li x-data="dropdown" class="relative mb-4 text-sm">
+                <div
+                  @click="toggle('registration')"
+                  class="flex justify-between hover:text-gray-200 hover:bg-gray-800 items-center space-x-2 rounded-md p-2 cursor-pointer active-navigation"
+                >
+                  <div class="relative flex space-x-2 items-center">
+                    <i data-feather="calendar" class="h-4 w-4"></i>
+                    <h1 :class="$store.sidebar.full ? '' : 'hidden'">Jobs</h1>
+                  </div>
+                  <i data-feather="chevron-down"></i>
+                </div>
+
+                <!-- dropdown content  -->
+                <div
+                  x-show="open"
+                  @click.outside="open =false"
+                  :class="$store.sidebar.full ? 'border-l border-gray-400 ml-4 pl-4 text-sm' : 'sm:absolute top-0 left-20 sm:shadow-md sm:z-10 sm:bg-gray-900 sm:rounded-md sm:p-4 bordered-l sm:border-none border-gray-400 ml-4 pl-4 sm:ml-0 w-28'"
+                  class="text-gray-400 space-y-3"
+                >
+                  <h1 class="hover:text-gray-200 cursor-pointer text-gray-100">
+                    <a href="/src/pages/jobs/job-list.html"> Job List </a>
+                  </h1>
+                  <h1 class="hover:text-gray-200 cursor-pointer">
+                    <a href="/src/pages/jobs/job-grid.html">Job Grid</a>
+                  </h1>
+                  <h1 class="hover:text-gray-200 cursor-pointer">
+                    Job Details
+                  </h1>
+                  <h1 class="hover:text-gray-200 cursor-pointer">
+                    Job Categories
+                  </h1>
                 </div>
               </li>
 
@@ -317,7 +353,7 @@
                 <img
                   src="/public/images/avatars/avatar.jpg"
                   alt=""
-                  class="w-6 h-6 rounded-full"
+                  class="w-8 h-8 rounded-full"
                 />
                 <div class="flex items-center">
                   <span class="hidden sm:block text-sm">Nataline</span>
@@ -339,7 +375,6 @@
           </div>
         </div>
       </div>
-
       <!-- Main body content  -->
       <div class="w-full px-10 mx-auto mt-16">
         <!-- breadcrumbs section -->
@@ -347,296 +382,204 @@
           class="top-navigation flex justify-between items-center py-5 text-gray-900"
           :class="$store.sidebar.full ? 'sm:ml-64' : 'ml-20' "
         >
-          <a href="http://" class="text-gray-600 font-semibold"> Cards </a>
+          <a
+            href="/src/pages/jobs/job-details.html"
+            class="text-gray-600 font-semibold"
+          >
+            Job Details
+          </a>
 
           <div class="text-gray-500 text-sm flex items-center">
-            <span class="pr-2">UI Elements </span>
+            <span class="pr-2">Pages </span>
             <i data-feather="chevron-right" class="block w-3 h-3"></i>
-            <span class="pl-2"> cards </span>
+            <span class="pl-2">Jobs</span>
+            <i data-feather="chevron-right" class="block w-3 h-3"></i>
+            <span class="pl-2"> Job list </span>
           </div>
         </div>
         <!-- Body content  -->
         <div
-          class="h-full pb-10"
+          class="h-screen"
           :class="$store.sidebar.full ? 'sm:ml-64' : 'ml-20' "
         >
-          <!-- simple cards with data -->
-          <div class="flex gap-5">
+          <div class="w-full bg-white rounded-sm">
             <div
-              class="flex justify-between p-5 bg-white items-center rounded-md shadow-md mt-5 sm:w-1/2 lg:w-1/3 w-full"
+              class="flex justify-between items-center px-5 py-4 border-b border-gray-200"
             >
-              <div class="flex">
-                <div class="flex flex-col gap-5">
-                  <span class="text-sm text-gray-500">Orders</span>
-                  <span class="text-gray-900">1 850</span>
+              <div class="text-semibold">Job list</div>
+              <div class="flex gap-2">
+                <button class="primary-btn">Add new Job</button>
+                <div class="bg-gray-200 p-3 rounded-md text-gray-600">
+                  <i data-feather="refresh-cw" class="h-4 w-4"></i>
                 </div>
-              </div>
-              <div
-                class="bg-blue-500 w-16 h-16 rounded-full flex justify-center items-center"
-              >
-                <i
-                  data-feather="shopping-bag"
-                  class="w-6 h-6 text-gray-100"
-                ></i>
-              </div>
-            </div>
-            <div
-              class="flex justify-between p-5 bg-white items-center rounded-md shadow-md mt-5 sm:w-1/2 lg:w-1/3 w-full"
-            >
-              <div class="flex">
-                <div class="flex flex-col gap-5">
-                  <span class="text-sm text-gray-500">Revenue</span>
-                  <span class="text-gray-900">R3 650</span>
-                </div>
-              </div>
-              <div
-                class="bg-blue-500 w-16 h-16 rounded-full flex justify-center items-center"
-              >
-                <i data-feather="thumbs-up" class="w-6 h-6 text-gray-100"></i>
-              </div>
-            </div>
-            <div
-              class="flex justify-between p-5 bg-white items-center rounded-md shadow-md mt-5 sm:w-1/2 lg:w-1/3 w-full"
-            >
-              <div class="flex">
-                <div class="flex flex-col gap-5">
-                  <span class="text-sm text-gray-500">Average Price</span>
-                  <span class="text-gray-900">R250</span>
-                </div>
-              </div>
-              <div
-                class="bg-blue-500 w-16 h-16 rounded-full flex justify-center items-center"
-              >
-                <i data-feather="tag" class="w-6 h-6 text-gray-100"></i>
-              </div>
-            </div>
-          </div>
-          <!-- end of simple cards with data -->
-
-          <!-- full color cards 1-->
-          <div class="flex gap-5">
-            <!-- full color card primary -->
-            <div class="p-5 shadow-md bg-blue-500 rounded-md mt-5">
-              <div class="flex items-center gap-5 text-white mb-5">
-                <i data-feather="target"></i>
-                <span>Primary Card</span>
-              </div>
-              <div class="text-gray-600 text-s">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </div>
-            </div>
-            <!-- end full color card  primary-->
-
-            <!-- full color card Success -->
-            <div class="p-5 shadow-md bg-green-400 rounded-md mt-5">
-              <div class="flex items-center gap-5 text-white mb-5">
-                <i data-feather="check-square"></i>
-                <span>Success Card</span>
-              </div>
-              <div class="text-gray-600 text-s">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </div>
-            </div>
-            <!-- end full color card  Success-->
-
-            <!-- full color card Info -->
-            <div class="p-5 shadow-md bg-blue-300 rounded-md mt-5">
-              <div class="flex items-center gap-5 text-white mb-5">
-                <i data-feather="info"></i>
-                <span>Info Card</span>
-              </div>
-              <div class="text-gray-600 text-s">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </div>
-            </div>
-            <!-- end full color card  Info-->
-          </div>
-          <!-- full color cards 2 -->
-          <div class="flex gap-5 mb-10">
-            <!-- full color card warning -->
-            <div class="p-5 shadow-md bg-orange-400 rounded-md mt-5">
-              <div class="flex items-center gap-5 text-white mb-5">
-                <i data-feather="alert-triangle"></i>
-                <span>Warning Card</span>
-              </div>
-              <div class="text-gray-600 text-s">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </div>
-            </div>
-            <!-- end full color card  warning-->
-
-            <!-- full color card Danger -->
-            <div class="p-5 shadow-md bg-red-400 rounded-md mt-5">
-              <div class="flex items-center gap-5 text-white mb-5">
-                <i data-feather="slash"></i>
-                <span>Danger Card</span>
-              </div>
-              <div class="text-gray-600 text-s">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </div>
-            </div>
-            <!-- end full color card  Danger-->
-
-            <!-- full color card Dark -->
-            <div class="p-5 shadow-md bg-black rounded-md mt-5">
-              <div class="flex items-center gap-5 text-white mb-5">
-                <i data-feather="alert-octagon"></i>
-                <span>Dark Card</span>
-              </div>
-              <div class="text-gray-600 text-s">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </div>
-            </div>
-            <!-- end full color card  Dark-->
-          </div>
-          <div class="flex gap-5">
-            <!-- card image with text -->
-            <div class="bg-white shadow-md max-w-[33%] rounded-b-md">
-              <div>
-                <img
-                  src="https://source.unsplash.com/featured/640x429"
-                  alt=""
-                  class="w-full"
-                />
-              </div>
-              <div class="p-4">
-                <div class="text-gray-500 text-s tracking-wide font-light">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Dolorum maxime accusantium veniam. Lorem ipsum dolor sit amet
-                  consectetur adipisicing elit. Libero temporibus tenetur quod.
-                </div>
-                <div class="text-xxs text-gray-500 mt-5">
-                  Last updated 3 mins ago
+                <div class="bg-green-300 p-3 rounded-md text-gray-600">
+                  <i data-feather="more-vertical" class="h-4 w-4"></i>
                 </div>
               </div>
             </div>
+            <!-- responsive job details table  -->
+            <div class="w-full bg-white overflow-auto py-8 px-3">
+              <table class="table table-responsive table-auto text-s w-full">
+                <thead class="text-gray-600 font-semibold text-left">
+                  <tr class="">
+                    <th class="border border-gray-100 px-3 py-2">#</th>
+                    <th class="border border-gray-100 px-3 py-2">Job Title</th>
+                    <th class="border border-gray-100 px-3 py-2">
+                      Company Name
+                    </th>
+                    <th class="border border-gray-100 px-3 py-2">Location</th>
+                    <th class="border border-gray-100 px-3 py-2">Experience</th>
+                    <th class="border border-gray-100 px-3 py-2">Position</th>
+                    <th class="border border-gray-100 px-3 py-2">Type</th>
+                    <th class="border border-gray-100 px-3 py-2">
+                      Posted Date
+                    </th>
+                    <th class="border border-gray-100 px-3 py-2">Last Date</th>
+                    <th class="border border-gray-100 px-3 py-2">Status</th>
+                    <th class="border border-gray-100 px-3 py-2">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="text-gray-500 mb-5">
+                  <tr>
+                    <td class="border border-gray-100 px-3 py-2">1</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      HTML Developer
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      Nuvotech PTY LTD
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">Pretoria</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      0 - 4 Years
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">3</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      <span
+                        class="px-2 py-1 rounded-md bg-orange-100 text-orange-600 text-xxs"
+                        >Part Time
+                      </span>
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      15 Jan 2023
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      15 Mar 2023
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      <span
+                        class="px-2 py-1 rounded-md bg-green-500 text-white text-xxs"
+                      >
+                        Active
+                      </span>
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2 flex gap-2">
+                      <div class="p-2 bg-blue-100 rounded-sm">
+                        <a href="/src/pages/jobs/job-details.html">
+                          <i data-feather="eye" class="h-3 w-3"></i>
+                        </a>
+                      </div>
+                      <div class="p-2 bg-green-100 rounded-sm">
+                        <i data-feather="edit-2" class="h-3 w-3"></i>
+                      </div>
+                      <div class="p-2 bg-red-200 text-red-500 rounded-sm">
+                        <i data-feather="trash" class="h-3 w-3"></i>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-100 px-3 py-2">2</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      Product Designer
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      Decor Things
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">Pretoria</td>
+                    <td class="border border-gray-100 px-3 py-2">5+ Years</td>
+                    <td class="border border-gray-100 px-3 py-2">1</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      <span
+                        class="px-2 py-1 rounded-md bg-green-300 text-green-700 text-xxs"
+                      >
+                        Full Time
+                      </span>
+                    </td>
 
-            <!-- card image with text and title -->
-            <div class="bg-white shadow-md max-w-[33%] rounded-b-md">
-              <div>
-                <img
-                  src="https://source.unsplash.com/featured/640x426"
-                  alt=""
-                  class="w-full"
-                />
-              </div>
-              <h3
-                class="px-4 pt-4 text-gray-500 text-sm tracking-wide font-semibold"
-              >
-                Card Title
-              </h3>
-              <div class="p-4 text-gray-500 text-s tracking-wide font-light">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Dolorum maxime accusantium veniam. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Libero temporibus tenetur quod.
-              </div>
+                    <td class="border border-gray-100 px-3 py-2">
+                      01 June 2023
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      15 July 2023
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      <span
+                        class="px-2 py-1 rounded-md bg-blue-700 text-white text-xxs"
+                      >
+                        New
+                      </span>
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2 flex gap-2">
+                      <div class="p-2 bg-blue-100 rounded-sm">
+                        <i data-feather="eye" class="h-3 w-3"></i>
+                      </div>
+                      <div class="p-2 bg-green-100 rounded-sm">
+                        <i data-feather="edit-2" class="h-3 w-3"></i>
+                      </div>
+                      <div class="p-2 bg-red-200 text-red-500 rounded-sm">
+                        <i data-feather="trash" class="h-3 w-3"></i>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="border border-gray-100 px-3 py-2">3</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      Business Associate
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      Shika Afrika
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">Cape Town</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      1 - 2 Years
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">2</td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      <span
+                        class="px-2 py-1 rounded-md bg-blue-300 text-blue-700 text-xxs"
+                      >
+                        Freelance
+                      </span>
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      25 November 2022
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      25 December 2022
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2">
+                      <span
+                        class="px-2 py-1 rounded-md bg-red-600 text-white text-xxs"
+                        >Close
+                      </span>
+                    </td>
+                    <td class="border border-gray-100 px-3 py-2 flex gap-2">
+                      <div class="p-2 bg-blue-100 rounded-sm">
+                        <a href="/src/pages/jobs/job-details.html">
+                          <i data-feather="eye" class="h-3 w-3"></i>
+                        </a>
+                      </div>
+                      <div class="p-2 bg-green-100 rounded-sm">
+                        <i data-feather="edit-2" class="h-3 w-3"></i>
+                      </div>
+                      <div class="p-2 bg-red-200 text-red-500 rounded-sm">
+                        <i data-feather="trash" class="h-3 w-3"></i>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot></tfoot>
+              </table>
             </div>
-
-            <!-- card image with text and title and button -->
-            <div class="bg-white shadow-md max-w-[33%] rounded-b-md">
-              <div>
-                <img
-                  src="https://source.unsplash.com/featured/640x428"
-                  alt=""
-                  class="w-full"
-                />
-              </div>
-              <h3
-                class="px-4 pt-4 text-gray-500 text-sm tracking-wide font-semibold"
-              >
-                Card Title
-              </h3>
-              <div class="p-4 text-gray-500 text-s tracking-wide font-light">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Dolorum maxime accusantium veniam. Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Libero temporibus tenetur quod.
-              </div>
-              <button
-                class="mx-4 mb-4 bg-blue-500 px-4 py-2 rounded-md text-white text-xs"
-              >
-                Button
-              </button>
-            </div>
-            <!-- end card image with text and title and button -->
-
-            <!-- card image with text and links -->
-            <div class="bg-white shadow-md max-w-[33%] rounded-b-md">
-              <h3 class="p-4 text-gray-500 text-sm tracking-wide font-semibold">
-                Card Title
-              </h3>
-              <div>
-                <img
-                  src="https://source.unsplash.com/featured/640x424"
-                  alt=""
-                  class="w-full"
-                />
-              </div>
-              <div class="px-4">
-                <div class="pt-4 text-gray-500 text-s tracking-wide font-light">
-                  Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                  Dolorum maxime accusantium veniam. Lorem ipsum dolor sit amet
-                  consectetur adipisicing elit. Libero temporibus tenetur quod.
-                </div>
-                <a
-                  href="http://"
-                  class="mt-5 mb-4 py-2 rounded-md text-blue-300 text-xs"
-                >
-                  Custom link
-                </a>
-              </div>
-            </div>
-            <!-- end card image with text and links -->
-          </div>
-
-          <!-- wide cards  -->
-          <div class="flex my-5 gap-5">
-            <!-- wide card with image to the left -->
-            <div class="flex gap-5 bg-white shadow-md rounded-b-md">
-              <div class="">
-                <img
-                  src="https://source.unsplash.com/featured/400x300"
-                  alt=""
-                  class="w-[300px] h-[160px]"
-                />
-              </div>
-              <div class="p-4">
-                <div class="text-gray-500 text-s tracking-wide font-light">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content. 2
-                </div>
-                <div class="text-xxs text-gray-500 mt-5">
-                  Last updated 3 mins ago
-                </div>
-              </div>
-            </div>
-            <!-- end of wide card with image to the left -->
-
-            <!-- wide card with image to the right -->
-            <div class="flex gap-5 bg-white shadow-md max-h-60 rounded-b-md">
-              <div class="p-4">
-                <div class="text-gray-500 text-s tracking-wide font-light">
-                  This is a wider card with supporting text below as a natural
-                  lead-in to additional content.
-                </div>
-                <div class="text-xxs text-gray-500 mt-2">
-                  Last updated 3 mins ago
-                </div>
-              </div>
-              <div class="">
-                <img
-                  src="https://source.unsplash.com/featured/400x301"
-                  alt=""
-                  class="w-[300px] h-[160px]"
-                />
-              </div>
-            </div>
-            <!-- end of wide card with image to the right -->
           </div>
         </div>
       </div>
